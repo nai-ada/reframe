@@ -1,5 +1,3 @@
-# Project Title
-
 Refra:me
 
 ## Overview
