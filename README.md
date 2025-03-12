@@ -65,7 +65,7 @@ All Entries Page
 
 #### Home Page
 
-![](homepage.png)
+![](home-page.png)
 
 #### New Entry Page
 
