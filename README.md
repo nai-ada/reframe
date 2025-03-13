@@ -1,6 +1,4 @@
-# Project Title
-
-Refra:me
+# Refra:me
 
 ## Overview
 
@@ -50,12 +48,12 @@ It’s easy to default to a pessimistic mindset when faced with life’s challen
 
 ### Sitemap
 
-Login/Signup Page
-Home Page
-New Entry Page
-Reframing/Entry Submission Page
-Submitted Entry Page
-All Entries Page
+- Login/Signup Page
+- Home Page
+- New Entry Page
+- Reframing/Entry Submission Page
+- Submitted Entry Page
+- All Entries Page
 
 ### Mockups
 
