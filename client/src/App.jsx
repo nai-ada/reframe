@@ -1,12 +1,18 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Test from "./components/Test";
+import SignUpPage from "./pages/SignUpPage";
+import HomePage from "./pages/HomePage";
 import "./App.css";
 
 function App() {
   return (
-    <>
-      <div className="bg-blue-500 text-white p-4">Hello Tailwind</div>
-      <Test />
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/signup" element={<SignUpPage />} />
+        <Route path="/test" element={<Test />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

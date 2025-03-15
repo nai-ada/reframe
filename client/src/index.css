@@ -2,3 +2,48 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+html {
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+:before,
+:after {
+  box-sizing: inherit;
+}
+
+embed,
+iframe,
+object {
+  max-width: 100%;
+}
+
+img,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+h1 {
+  font-family: "Fustat", sans-serif;
+  font-size: 4rem;
+}
+
+h2,
+h3,
+p {
+  font-family: "Figtree", sans-serif;
+}
+
+h2 {
+  font-size: 1.375rem;
+}
+
+p {
+  font-size: 0.75rem;
+}
+
+.logo-highlight {
+  font-weight: 200;
+}
