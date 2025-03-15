@@ -44,6 +44,21 @@ p {
   font-size: 0.75rem;
 }
 
-.logo-highlight {
-  font-weight: 200;
+.gradient-border {
+  position: relative;
+  border-radius: 5px;
+  background: rgb(236, 255, 254);
+  padding: 2px;
+}
+
+.gradient-border::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(to bottom, #b0ceff, #499940b6);
+  border-radius: 5px;
+  z-index: -1;
 }
