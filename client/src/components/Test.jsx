@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { supabase } from "../supabaseClient";
+// import { supabase } from "../supabaseClient";
 
 function Test() {
   // State for the user ID you want to query

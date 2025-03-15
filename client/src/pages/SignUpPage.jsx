@@ -1,4 +1,5 @@
-import AuthForm from "../components/AuthForm";
+import SignupAuthForm from "../components/SignupAuthForm";
+import { Link } from "react-router-dom";
 import LeafIcon from "../assets/images/leaf.svg";
 
 function SignUpPage() {
@@ -31,8 +32,16 @@ function SignUpPage() {
             </div>
           </div>
           <div className="flex justify-center mt-8">
-            <AuthForm />
+            <SignupAuthForm />
           </div>
+        </div>
+        <div className="mb-32 mt-10 flex justify-center">
+          <p>
+            Already have an account?{" "}
+            <Link to="/login" className="text-[#A7CFB8] underline">
+              Login
+            </Link>
+          </p>
         </div>
       </div>
     </>
