@@ -9,7 +9,7 @@ function SignUpPage() {
         <div className="justify-center flex-column">
           <div className="logo-container flex justify-center">
             <h1 className="logo mt-20">
-              Refra:<span className="logo-highlight">me</span>
+              Refra:<span className="logo-highlight font-extralight">me</span>
             </h1>
           </div>
           <div className="slogan-container flex justify-center">
