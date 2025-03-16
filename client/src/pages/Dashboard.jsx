@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import DropdownMenu from "../components/Navigation";
+import Navigation from "../components/Navigation";
 import QuoteRandomizer from "../components/QuoteRandomizer";
 import LeafIcon from "../assets/images/leaf.svg";
 import ArrowRight from "../assets/images/arrow-right.svg";
@@ -7,12 +7,13 @@ import { Divider } from "@heroui/react";
 
 // add logic for if user is logged in they have access to this page and are directed here
 // add logic to display username. get the data from supabase and display it that way
+// isloggedIn = true ?
 const welcomeUser = "User";
 
 function Dashboard() {
   return (
     <div>
-      <DropdownMenu />
+      <Navigation />
       <div className="logo-container flex items-center justify-center mt-4 overflow-x-hidden">
         <h1 className="logo text-[30px] mr-1">
           Refra:<span className="logo-highlight font-thin">me</span>
