@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.24.0",
+    "@heroui/accordion": "^2.2.13",
     "@heroui/button": "^2.2.16",
     "@heroui/divider": "^2.2.11",
     "@heroui/form": "^2.1.15",
