@@ -3,6 +3,8 @@ import { useLocation, Link } from "react-router-dom";
 import { Button, Accordion, AccordionItem } from "@heroui/react";
 import Navigation from "../components/Navigation";
 import PageTransition from "../components/PageTransition";
+import MindsetTips from "../components/MindsetTips";
+import EntryComparisons from "../components/EntryComparisons";
 import axios from "axios";
 import TypewriterEffect from "../components/TypewriterEffect";
 
@@ -66,19 +68,18 @@ function EntryProcessingPage() {
     }
 
     const prompt = `
-      You are an AI trained to help reframe text into a positive perspective. Your task is to analyze the following user entry and identify any negative statements. Then, rework the text to reframe those statements into a positive perspective while keeping the original content as close as possible. Maintain the tone and style of the original text, but ensure the overall message is uplifting and optimistic.
+      You are an AI trained to help reframe text into a positive perspective. Your task is to analyze the following user entry and identify any negative statements. Then, rework the text to reframe those statements into a positive perspective while keeping the original content as close as possible. Maintain the tone and style of the original text, but ensure the overall message is uplifting and optimistic. Keep this reframed entry as concise as possible, avoiding extra sentences.
 
       **User Entry:**
       ${originalText}
 
-      **Reframed Text:**
     `;
 
     try {
       setApiCallMade(true);
 
       const response = await apiClient.post(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=${geminiApiKey}`,
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${geminiApiKey}`,
         {
           contents: [
             {
@@ -193,8 +194,9 @@ function EntryProcessingPage() {
 
         <div className="m-4">
           <div className="mb-6 mt-10">
-            <h2 className="text-xl font-semibold mb-2 ml-4">
-              <span className="text-[#A7CFB8]">{username}</span>'s Entry
+            <h2 className="text-xl font-medium mb-2 ml-4">
+              <span className="font-semibold text-[#A7CFB8]">{username}</span>'s
+              Entry
             </h2>
 
             <Accordion className="custom-accordion">
@@ -220,7 +222,7 @@ function EntryProcessingPage() {
           </div>
 
           {/* Reframed Entry with typewriter effect */}
-          <div>
+          <div className=" mb-6">
             <div className="flex items-center mb-2 ml-4">
               <h2 className="text-xl">
                 <span className="font-semibold text-[#A7CFB8]">Refra:</span>
@@ -257,6 +259,18 @@ function EntryProcessingPage() {
               )}
             </div>
           </div>
+          <div className="border-1 m-4 relative top-10"></div>
+
+          <div>
+            <MindsetTips originalText={originalText} />
+          </div>
+
+          <div>
+            <EntryComparisons
+              originalText={originalText}
+              reframedText={reframedText}
+            />
+          </div>
 
           <div className="mt-6 flex justify-end mr-4">
             <Link to="/all-entries">
@@ -266,7 +280,7 @@ function EntryProcessingPage() {
                 variant="solid"
                 disabled={!typewriterComplete}
               >
-                Submit
+                Submit Entry
               </Button>
             </Link>
           </div>
