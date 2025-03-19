@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, useNavigate, Link } from "react-router-dom";
 import { Button, Accordion, AccordionItem } from "@heroui/react";
 import Navigation from "../components/Navigation";
 import PageTransition from "../components/PageTransition";
@@ -7,6 +7,7 @@ import MindsetTips from "../components/MindsetTips";
 import EntryComparisons from "../components/EntryComparisons";
 import axios from "axios";
 import TypewriterEffect from "../components/TypewriterEffect";
+import { supabase } from "../supabaseClient";
 
 const responseCache = {};
 
@@ -40,6 +41,7 @@ apiClient.interceptors.request.use(async (config) => {
 
 function EntryProcessingPage() {
   const location = useLocation();
+  const navigate = useNavigate();
   const { originalText, date, entryNum } = location.state || {};
 
   const [isLoading, setIsLoading] = useState(true);
@@ -49,8 +51,48 @@ function EntryProcessingPage() {
   const [apiCallMade, setApiCallMade] = useState(false);
   const [typewriterComplete, setTypewriterComplete] = useState(false);
 
+  // state variables to store data from child components
+  const [originalScore, setOriginalScore] = useState(0);
+  const [reframedScore, setReframedScore] = useState(0);
+  const [mindsetTips, setMindsetTips] = useState("");
+  const [savingEntry, setSavingEntry] = useState(false);
+
   const username = localStorage.getItem("username") || "User";
   const geminiApiKey = import.meta.env.VITE_GEMINI_API_KEY;
+
+  const saveEntryToSupabase = async () => {
+    if (savingEntry) return;
+
+    try {
+      setSavingEntry(true);
+
+      const { data, error } = await supabase
+        .from("entries")
+        .insert([
+          {
+            original_text: originalText,
+            reframed_text: reframedText,
+            date: new Date(),
+            entry_num: entryNum,
+            original_score: originalScore,
+            reframed_score: reframedScore,
+            mindset_tips: mindsetTips,
+          },
+        ])
+        .select();
+
+      if (error) throw error;
+      navigate("/submitted-entry", { state: { entryData: data[0] } });
+    } catch (error) {
+      console.error("Error saving entry:", error);
+      setError("Failed to save entry. Please try again.");
+      setSavingEntry(false);
+    }
+  };
+
+  const handleSubmitEntry = () => {
+    saveEntryToSupabase();
+  };
 
   const processText = useCallback(async () => {
     if (!originalText || apiCallMade) return;
@@ -151,7 +193,7 @@ function EntryProcessingPage() {
         <div>
           <Navigation />
           <div className="flex flex-col justify-center items-center h-[70vh]">
-            {/* Loading spinner */}
+            {/* loading spinner */}
             <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-[#A7CFB8] mb-4"></div>
             <h2 className="text-xl mb-2 text-[#A7CFB8]">Generating Entry...</h2>
             <p className="text-sm text-gray-500">This may take a moment</p>
@@ -221,7 +263,6 @@ function EntryProcessingPage() {
             </Accordion>
           </div>
 
-          {/* Reframed Entry with typewriter effect */}
           <div className=" mb-6">
             <div className="flex items-center mb-2 ml-4">
               <h2 className="text-xl">
@@ -262,27 +303,31 @@ function EntryProcessingPage() {
           <div className="border-1 m-4 relative top-10"></div>
 
           <div>
-            <MindsetTips originalText={originalText} />
+            <MindsetTips
+              originalText={originalText}
+              updateTipsText={setMindsetTips}
+            />
           </div>
 
           <div>
             <EntryComparisons
               originalText={originalText}
               reframedText={reframedText}
+              updateOriginalScore={setOriginalScore}
+              updateReframedScore={setReframedScore}
             />
           </div>
 
           <div className="mt-6 flex justify-end mr-4">
-            <Link to="/all-entries">
-              <Button
-                style={{ backgroundColor: "#A7CFB8", color: "" }}
-                radius="full"
-                variant="solid"
-                disabled={!typewriterComplete}
-              >
-                Submit Entry
-              </Button>
-            </Link>
+            <Button
+              style={{ backgroundColor: "#A7CFB8", color: "" }}
+              radius="full"
+              variant="solid"
+              disabled={!typewriterComplete || savingEntry}
+              onPress={handleSubmitEntry}
+            >
+              {savingEntry ? "Saving..." : "Submit Entry"}
+            </Button>
           </div>
         </div>
       </div>
