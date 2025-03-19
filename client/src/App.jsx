@@ -32,9 +32,11 @@ function AnimatedRoutes() {
 
 function App() {
   return (
-    <BrowserRouter>
-      <AnimatedRoutes />
-    </BrowserRouter>
+    <div style={{ maxWidth: "440px", margin: "0 auto" }}>
+      <BrowserRouter>
+        <AnimatedRoutes />
+      </BrowserRouter>
+    </div>
   );
 }
 
