@@ -5,6 +5,7 @@ import ReactCardFlip from "react-card-flip";
 import Navigation from "../components/Navigation";
 import BackArrow from "../assets/images/back-arrow.svg";
 import Tap from "../assets/images/tap.svg";
+import Delete from "../assets/images/delete.svg";
 
 import PageTransition from "../components/PageTransition";
 
@@ -61,7 +62,10 @@ function SubmittedEntryPage() {
         </div>
         <div className="flex items-center justify-between m-4 ">
           <h1 className="text-[22px] pr-4">Entry {entryData.entry_num}</h1>
-          <h2 className="text-[12px]">{formattedDate}</h2>
+          <div class="flex items-center justify-between">
+            <img src={Delete} alt="delete button" className="w-[20px]"></img>
+            <h2 className="text-[12px] ml-2">{formattedDate}</h2>
+          </div>
         </div>
 
         <div className="m-4">
