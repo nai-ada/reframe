@@ -28,7 +28,6 @@ function NewEntryPage() {
       return;
     }
 
-    // Navigate immediately with just the text and metadata
     navigate("/entry-processing", {
       state: {
         originalText: entryText,

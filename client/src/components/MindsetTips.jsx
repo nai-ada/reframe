@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 
-function MindsetTips({ originalText }) {
+function MindsetTips({ originalText, updateTipsText }) {
   const responseCache = {};
   const apiClient = axios.create();
   const RATE_LIMIT_WINDOW = 60000;
@@ -117,6 +117,7 @@ function MindsetTips({ originalText }) {
 
   useEffect(() => {
     if (tipsText) {
+      if (updateTipsText) updateTipsText(tipsText);
       const lines = tipsText.split("\n");
       const formattedLines = lines.map((line, index) => {
         const trimmed = line.trim();
@@ -131,7 +132,7 @@ function MindsetTips({ originalText }) {
       });
       setFormattedTips(formattedLines);
     }
-  }, [tipsText]);
+  }, [tipsText, updateTipsText]);
 
   return (
     <div>
