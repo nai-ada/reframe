@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import Navigation from "../components/Navigation";
 import BackArrow from "../assets/images/back-arrow.svg";
+import { Button } from "@heroui/react";
 import ArrowRight from "../assets/images/right-arrow.svg";
+import Add from "../assets/images/add.svg";
 import PageTransition from "../components/PageTransition";
 import { supabase } from "../supabaseClient";
 
@@ -56,7 +58,9 @@ function AllEntriesPage() {
 
         {entryData ? (
           <div className="flex items-center justify-between m-4 ">
-            <h1 className="text-[22px] pr-4">Entry {entryData.entry_num}</h1>
+            <h1 className="text-medium">
+              {entry.entry_title || "Untitled Entry"}
+            </h1>
             <div className="flex items-center justify-between">
               <img
                 src={Delete}
@@ -69,7 +73,16 @@ function AllEntriesPage() {
           </div>
         ) : (
           <div className="m-4 ">
-            <h1 className="text-[22px]">All Entries</h1>
+            <div className="flex justify-between items-center">
+              <h1 className="text-[22px]">All Entries</h1>
+              <div className="flex gap-1">
+                <img src={Add} alt="add button" className="w-[20px]"></img>
+                <Link to="/new-entry" className="my-4 text-xs">
+                  Add New
+                </Link>
+              </div>
+            </div>
+
             {loading ? (
               <p>Loading entries...</p>
             ) : error ? (
@@ -80,12 +93,13 @@ function AllEntriesPage() {
                   entries.map((entry) => (
                     <div
                       key={entry.id}
-                      className="border-2 border-green-500 rounded-lg p-3 mb-2 rounded cursor-pointer flex justify-between bg-gradient-to-r from-[#d8f3ff] to-[#e2ffdd]"
+                      className="border-1 border-[#A7CFB8] rounded-lg p-3 mb-4 rounded cursor-pointer flex justify-between bg-gradient-to-r from-[#d8f3ff] to-[#e2ffdd] shadow-md"
                       onClick={() => navigate(`/submitted-entry/${entry.id}`)}
                     >
                       <h2 className="text-medium">
-                        Entry {entry.entry_num || "N/A"}
+                        {entry.entry_title || "Untitled Entry"}
                       </h2>
+
                       <div className="flex flex-end items-center">
                         <p className="text-xs mr-2 text-[#3a3a3a] font-thin">
                           {formatDate(entry.date)}
@@ -99,7 +113,18 @@ function AllEntriesPage() {
                     </div>
                   ))
                 ) : (
-                  <p>No entries found</p>
+                  <div className="flex-col flex justify-center items-center text-sm mt-48">
+                    <p className="text-medium mb-6">No entries found.</p>
+                    <Link to="/new-entry">
+                      <Button
+                        style={{ backgroundColor: "#A7CFB8", color: "" }}
+                        radius="full"
+                        variant="solid"
+                      >
+                        Add New Entry
+                      </Button>
+                    </Link>
+                  </div>
                 )}
               </div>
             )}

@@ -43,7 +43,7 @@ apiClient.interceptors.request.use(async (config) => {
 function EntryProcessingPage() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { originalText, date, entryNum } = location.state || {};
+  const { originalText, date, entryTitle } = location.state || {};
 
   const [isLoading, setIsLoading] = useState(true);
   const [reframedText, setReframedText] = useState("");
@@ -58,6 +58,7 @@ function EntryProcessingPage() {
 
   const username = localStorage.getItem("username") || "User";
   const geminiApiKey = import.meta.env.VITE_GEMINI_API_KEY;
+
   const saveEntryToSupabase = async () => {
     if (savingEntry) return;
 
@@ -71,7 +72,7 @@ function EntryProcessingPage() {
             original_text: originalText,
             reframed_text: reframedText,
             date: new Date(),
-            entry_num: entryNum,
+            entry_title: entryTitle,
             original_score: originalScore,
             reframed_score: reframedScore,
             mindset_tips: mindsetTips,
@@ -227,8 +228,11 @@ function EntryProcessingPage() {
       <div>
         <Navigation />
 
-        <div className="flex items-center justify-between m-4 mt-10">
-          <h1 className="text-[22px] pr-4">Entry {entryNum}</h1>
+        <div className="flex items-center justify-between m-4 mt-10 mb-0">
+          <h1 className="text-[22px] pr-4">{entryTitle}</h1>
+        </div>
+
+        <div className="flex items-center m-4 mt-1">
           <h2 className="text-[12px]">{date}</h2>
         </div>
 
@@ -254,34 +258,35 @@ function EntryProcessingPage() {
                 )}${originalText.length > 50 ? "..." : ""}`}
                 className="border border-gray-300 rounded-lg mx-2"
               >
-                <div className="p-4">
+                <div
+                  className="p-4"
+                  style={{ wordWrap: "break-word", whiteSpace: "pre-wrap" }}
+                >
                   <p>{originalText}</p>
                 </div>
               </AccordionItem>
             </Accordion>
           </div>
 
-          <div className=" mb-6">
-            <div className="flex items-center mb-2 ml-4">
-              <h2 className="text-xl">
-                <span className="font-semibold text-[#A7CFB8]">Refra:</span>
-                <span className="logo-highlight text-[#A7CFB8] font-thin">
-                  me
-                </span>
-                's Perspective
-              </h2>
-
-              {displayReframedText && !typewriterComplete && (
-                <div className="flex flex-start items-center ml-3">
-                  <Spinner color="success" size="sm" className="mr-2" />
-                </div>
-              )}
-            </div>
-
+          <div className="mb-6">
+            <h2 className="text-xl font-medium mb-2 ml-4">
+              Refra:
+              <span className="logo-highlight text-[#A7CFB8] font-thin">
+                me
+              </span>
+              's Perspective
+            </h2>
             <div
               className={`p-4 border-2 ${
                 typewriterComplete ? "border-[#ADD8E6]" : "border-[#A7CFB8]"
               } rounded-lg mx-4 text-sm transition-colors duration-500 ease-in`}
+              style={{
+                wordWrap: "break-word",
+                overflowWrap: "break-word",
+                wordBreak: "break-word",
+                whiteSpace: "pre-wrap",
+                maxWidth: "100%",
+              }}
             >
               {displayReframedText ? (
                 <TypewriterEffect
@@ -298,23 +303,20 @@ function EntryProcessingPage() {
               )}
             </div>
           </div>
-          <div className="border-1 m-4 relative top-10"></div>
 
-          <div>
-            <MindsetTips
-              originalText={originalText}
-              updateTipsText={setMindsetTips}
-            />
-          </div>
+          <div className="border-t m-4 relative top-10"></div>
 
-          <div>
-            <EntryComparisons
-              originalText={originalText}
-              reframedText={reframedText}
-              updateOriginalScore={setOriginalScore}
-              updateReframedScore={setReframedScore}
-            />
-          </div>
+          <MindsetTips
+            originalText={originalText}
+            updateTipsText={setMindsetTips}
+          />
+
+          <EntryComparisons
+            originalText={originalText}
+            reframedText={reframedText}
+            updateOriginalScore={setOriginalScore}
+            updateReframedScore={setReframedScore}
+          />
 
           <div className="mt-6 flex justify-end mr-4">
             <Button
