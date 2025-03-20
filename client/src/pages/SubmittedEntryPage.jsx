@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate, Link } from "react-router-dom";
+import { useLocation, useNavigate, Link, useParams } from "react-router-dom";
 import { Button } from "@heroui/react";
 import ReactCardFlip from "react-card-flip";
 import Navigation from "../components/Navigation";
@@ -11,6 +11,7 @@ import PageTransition from "../components/PageTransition";
 import { supabase } from "../supabaseClient";
 
 function SubmittedEntryPage() {
+  const { id } = useParams();
   const location = useLocation();
   const navigate = useNavigate();
   const [entryData, setEntryData] = useState(null);
@@ -55,19 +56,40 @@ function SubmittedEntryPage() {
 
       if (error) throw error;
       console.log("Entry deleted successfully");
-      navigate("/", { replace: true });
+      navigate("/all-entries", { replace: true });
     } catch (err) {
       console.error("Error deleting entry:", err);
     }
   };
 
   useEffect(() => {
-    if (location.state && location.state.entryData) {
-      setEntryData(location.state.entryData);
-    } else {
-      navigate("/", { replace: true });
-    }
-  }, [location, navigate]);
+    const fetchEntry = async () => {
+      if (id) {
+        try {
+          setLoading(true);
+          const { data, error } = await supabase
+            .from("entries")
+            .select("*")
+            .eq("id", id)
+            .single();
+
+          if (error) throw error;
+          if (data) setEntryData(data);
+        } catch (err) {
+          setError(err.message);
+          console.error("Error fetching entry:", err);
+        } finally {
+          setLoading(false);
+        }
+      } else if (location.state && location.state.entryData) {
+        setEntryData(location.state.entryData);
+      } else {
+        navigate("/", { replace: true });
+      }
+    };
+
+    fetchEntry();
+  }, [id, location.state, navigate]);
 
   useEffect(() => {
     fetchAllEntries();
