@@ -10,6 +10,7 @@ function NewEntryPage() {
   const currentDate = new Date();
   const [entryText, setEntryText] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [entryTitle, setEntryTitle] = useState("");
 
   const formattedDate = currentDate.toLocaleDateString("en-US", {
     weekday: "long",
@@ -18,10 +19,13 @@ function NewEntryPage() {
     year: "numeric",
   });
 
-  const entryNum = 1;
-
   const handleSubmit = () => {
     setErrorMessage("");
+
+    if (!entryTitle.trim()) {
+      setErrorMessage("Title is required.");
+      return;
+    }
 
     if (!entryText.trim()) {
       setErrorMessage("Content is required to submit an entry.");
@@ -32,7 +36,7 @@ function NewEntryPage() {
       state: {
         originalText: entryText,
         date: formattedDate,
-        entryNum: entryNum,
+        entryTitle: entryTitle.trim(),
       },
     });
   };
@@ -47,10 +51,18 @@ function NewEntryPage() {
           </Link>
         </div>
         <div className="flex items-center justify-between m-4">
-          <h1 className="text-[22px] pr-4">Entry {entryNum}</h1>
+          <h1 className="text-[22px] pr-4">New Entry</h1>
           <h2 className="text-[12px]">{formattedDate}</h2>
         </div>
         <div className="m-4">
+          <Textarea
+            maxRows={1}
+            placeholder="Enter Title (max 10 characters)"
+            size="sm"
+            className="[&>div]:border-2 [&>div]:border-green-500 [&>div]:rounded-lg [&>div]:p-2 [&_textarea]:!h-full [&_textarea]:w-full [&_textarea]:border-none [&_textarea]:resize-none mb-4"
+            value={entryTitle}
+            onChange={(e) => setEntryTitle(e.target.value.slice(0, 10))}
+          />
           <Textarea
             label="New Entry"
             minRows={50}

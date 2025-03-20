@@ -7,6 +7,7 @@ import BackArrow from "../assets/images/back-arrow.svg";
 import DeleteEntry from "../components/DeleteEntry";
 import Tap from "../assets/images/tap.svg";
 import Delete from "../assets/images/delete.svg";
+import Edit from "../assets/images/edit.svg";
 import PageTransition from "../components/PageTransition";
 import { supabase } from "../supabaseClient";
 
@@ -128,19 +129,28 @@ function SubmittedEntryPage() {
             <img src={BackArrow} alt="back arrow" className=""></img>
           </Link>
         </div>
-        <div className="flex items-center justify-between m-4 ">
-          <h1 className="text-[22px] pr-4">Entry {entryData.entry_num}</h1>
-          <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between m-4 mb-0">
+          <h1 className="text-[22px] pr-4">
+            {entryData.entry_title || "Untitled Entry"}
+          </h1>
+        </div>
+        <div className="flex items-center justify-between m-4 mt-0">
+          <h2 className="text-[12px] mr-2">{formattedDate}</h2>
+          <div className="justify-end flex">
+            <img
+              src={Edit}
+              alt="edit button"
+              className="w-[20px] mr-1"
+              // onClick={handleEdit}
+            ></img>
             <img
               src={Delete}
               alt="delete button"
               className="w-[20px]"
               onClick={handleDelete}
             ></img>
-            <h2 className="text-[12px] ml-2">{formattedDate}</h2>
           </div>
         </div>
-
         <div className="m-4">
           <div className="mb-6 mt-10 relative ">
             <ReactCardFlip isFlipped={isFlipped} flipDirection="horizontal">
@@ -160,7 +170,12 @@ function SubmittedEntryPage() {
                     <span className="text-xs text-gray-500">Tap to flip</span>
                   </div>
                 </div>
-                <p className="mt-6">{entryData.reframed_text}</p>
+                <p
+                  className="mt-6 break-words whitespace-pre-wrap"
+                  style={{ wordWrap: "break-word", overflowWrap: "break-word" }}
+                >
+                  {entryData.reframed_text}
+                </p>
               </div>
 
               <div
@@ -176,7 +191,12 @@ function SubmittedEntryPage() {
                     <span className="text-xs text-gray-500">Tap to flip</span>
                   </div>
                 </div>
-                <p className="mt-6">{entryData.original_text}</p>
+                <p
+                  className="mt-6 break-words whitespace-pre-wrap"
+                  style={{ wordWrap: "break-word", overflowWrap: "break-word" }}
+                >
+                  {entryData.original_text}
+                </p>
               </div>
             </ReactCardFlip>
           </div>
@@ -184,18 +204,27 @@ function SubmittedEntryPage() {
           {entryData.mindset_tips && (
             <div className="mb-6 mt-16">
               <h2 className="text-xl font-medium mb-2 ml-4">Mindset Tips</h2>
-              <div className="p-4 text-sm">
+              <div
+                className="p-4 text-sm break-words whitespace-pre-wrap"
+                style={{ wordWrap: "break-word", overflowWrap: "break-word" }}
+              >
                 {entryData.mindset_tips.split("\n").map((line, index) => {
                   const trimmed = line.trim();
                   if (trimmed.startsWith("• ")) {
                     return (
                       <p key={index} className="mb-4 m-1">
                         •{" "}
-                        <span className="text-xs">{trimmed.substring(2)}</span>
+                        <span className="text-xs break-words">
+                          {trimmed.substring(2)}
+                        </span>
                       </p>
                     );
                   }
-                  return trimmed ? <p key={index}>{line}</p> : null;
+                  return trimmed ? (
+                    <p key={index} className="break-words">
+                      {line}
+                    </p>
+                  ) : null;
                 })}
               </div>
             </div>
@@ -205,7 +234,7 @@ function SubmittedEntryPage() {
             <DeleteEntry
               setDeleteEntry={setDeleteEntry}
               id={entryToDelete.id}
-              entryNum={entryToDelete.entry_num}
+              entryTitle={entryToDelete.entry_title}
               onDeleteSuccess={() => deleteEntryById(entryToDelete.id)}
             />
           )}

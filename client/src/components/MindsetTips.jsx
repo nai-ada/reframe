@@ -145,14 +145,24 @@ function MindsetTips({ originalText, updateTipsText }) {
 
           {isLoading && (
             <div className="flex flex-start items-center ml-3">
-              <Spinner color="success" size="lg" className="mr-2" />
+              <Spinner color="success" size="sm" className="mr-2" />
             </div>
           )}
         </div>
 
         <div className="p-4 text-sm">
           {displayTipsText ? (
-            <div>{formattedTips}</div>
+            <div
+              style={{
+                wordWrap: "break-word",
+                overflowWrap: "break-word",
+                wordBreak: "break-word",
+                whiteSpace: "pre-wrap",
+                maxWidth: "100%",
+              }}
+            >
+              {formattedTips}
+            </div>
           ) : (
             <div className="flex justify-center items-center h-[50px]">
               <div className="animate-pulse text-[#A7CFB8]">
