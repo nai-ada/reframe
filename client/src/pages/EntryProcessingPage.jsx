@@ -7,6 +7,7 @@ import MindsetTips from "../components/MindsetTips";
 import EntryComparisons from "../components/EntryComparisons";
 import axios from "axios";
 import TypewriterEffect from "../components/TypewriterEffect";
+import { Spinner } from "@heroui/spinner";
 import { supabase } from "../supabaseClient";
 
 const responseCache = {};
@@ -50,8 +51,6 @@ function EntryProcessingPage() {
   const [error, setError] = useState("");
   const [apiCallMade, setApiCallMade] = useState(false);
   const [typewriterComplete, setTypewriterComplete] = useState(false);
-
-  // state variables to store data from child components
   const [originalScore, setOriginalScore] = useState(0);
   const [reframedScore, setReframedScore] = useState(0);
   const [mindsetTips, setMindsetTips] = useState("");
@@ -59,7 +58,6 @@ function EntryProcessingPage() {
 
   const username = localStorage.getItem("username") || "User";
   const geminiApiKey = import.meta.env.VITE_GEMINI_API_KEY;
-
   const saveEntryToSupabase = async () => {
     if (savingEntry) return;
 
@@ -82,7 +80,8 @@ function EntryProcessingPage() {
         .select();
 
       if (error) throw error;
-      navigate("/submitted-entry", { state: { entryData: data[0] } });
+
+      navigate("/success", { state: { entryData: data[0] } });
     } catch (error) {
       console.error("Error saving entry:", error);
       setError("Failed to save entry. Please try again.");
@@ -193,8 +192,7 @@ function EntryProcessingPage() {
         <div>
           <Navigation />
           <div className="flex flex-col justify-center items-center h-[70vh]">
-            {/* loading spinner */}
-            <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-[#A7CFB8] mb-4"></div>
+            <Spinner color="success" size="sm" className="mb-2" />
             <h2 className="text-xl mb-2 text-[#A7CFB8]">Generating Entry...</h2>
             <p className="text-sm text-gray-500">This may take a moment</p>
           </div>
@@ -275,7 +273,7 @@ function EntryProcessingPage() {
 
               {displayReframedText && !typewriterComplete && (
                 <div className="flex flex-start items-center ml-3">
-                  <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-[#A7CFB8] mr-2"></div>
+                  <Spinner color="success" size="sm" className="mr-2" />
                 </div>
               )}
             </div>

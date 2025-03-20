@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
+import { Spinner } from "@heroui/spinner";
 import axios from "axios";
 
 function MindsetTips({ originalText, updateTipsText }) {
@@ -144,7 +145,7 @@ function MindsetTips({ originalText, updateTipsText }) {
 
           {isLoading && (
             <div className="flex flex-start items-center ml-3">
-              <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-[#A7CFB8] mr-2"></div>
+              <Spinner color="success" size="lg" className="mr-2" />
             </div>
           )}
         </div>

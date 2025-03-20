@@ -4,21 +4,61 @@ import { Button } from "@heroui/react";
 import ReactCardFlip from "react-card-flip";
 import Navigation from "../components/Navigation";
 import BackArrow from "../assets/images/back-arrow.svg";
+import DeleteEntry from "../components/DeleteEntry";
 import Tap from "../assets/images/tap.svg";
 import Delete from "../assets/images/delete.svg";
-
 import PageTransition from "../components/PageTransition";
+import { supabase } from "../supabaseClient";
 
 function SubmittedEntryPage() {
   const location = useLocation();
   const navigate = useNavigate();
   const [entryData, setEntryData] = useState(null);
   const [isFlipped, setIsFlipped] = useState(false);
+  const [deleteEntry, setDeleteEntry] = useState(false);
+  const [entryToDelete, setEntryToDelete] = useState(null);
+  const [entries, setEntries] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const username = localStorage.getItem("username") || "User";
 
   const handleCardFlip = () => {
     setIsFlipped(!isFlipped);
+  };
+
+  const handleDelete = () => {
+    if (entryData) {
+      setEntryToDelete(entryData);
+      setDeleteEntry(true);
+    }
+  };
+
+  const fetchAllEntries = async () => {
+    try {
+      setLoading(true);
+      const { data, error } = await supabase.from("entries").select("*");
+
+      if (error) throw error;
+      if (data) setEntries(data);
+    } catch (err) {
+      setError(err.message);
+      console.error("Error fetching entries:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const deleteEntryById = async (id) => {
+    try {
+      const { error } = await supabase.from("entries").delete().eq("id", id);
+
+      if (error) throw error;
+      console.log("Entry deleted successfully");
+      navigate("/", { replace: true });
+    } catch (err) {
+      console.error("Error deleting entry:", err);
+    }
   };
 
   useEffect(() => {
@@ -28,6 +68,19 @@ function SubmittedEntryPage() {
       navigate("/", { replace: true });
     }
   }, [location, navigate]);
+
+  useEffect(() => {
+    fetchAllEntries();
+  }, []);
+
+  const formattedDate = entryData
+    ? new Date(entryData.date).toLocaleDateString("en-US", {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })
+    : "";
 
   if (!entryData) {
     return (
@@ -44,13 +97,6 @@ function SubmittedEntryPage() {
     );
   }
 
-  const formattedDate = new Date(entryData.date).toLocaleDateString("en-US", {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
-
   return (
     <PageTransition>
       <div>
@@ -62,8 +108,13 @@ function SubmittedEntryPage() {
         </div>
         <div className="flex items-center justify-between m-4 ">
           <h1 className="text-[22px] pr-4">Entry {entryData.entry_num}</h1>
-          <div class="flex items-center justify-between">
-            <img src={Delete} alt="delete button" className="w-[20px]"></img>
+          <div className="flex items-center justify-between">
+            <img
+              src={Delete}
+              alt="delete button"
+              className="w-[20px]"
+              onClick={handleDelete}
+            ></img>
             <h2 className="text-[12px] ml-2">{formattedDate}</h2>
           </div>
         </div>
@@ -126,6 +177,15 @@ function SubmittedEntryPage() {
                 })}
               </div>
             </div>
+          )}
+
+          {deleteEntry && entryToDelete && (
+            <DeleteEntry
+              setDeleteEntry={setDeleteEntry}
+              id={entryToDelete.id}
+              entryNum={entryToDelete.entry_num}
+              onDeleteSuccess={() => deleteEntryById(entryToDelete.id)}
+            />
           )}
 
           <div className="mt-6 flex justify-center mr-4">
