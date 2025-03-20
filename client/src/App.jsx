@@ -8,6 +8,7 @@ import AllEntriesPage from "./pages/AllEntriesPage";
 import NewEntryPage from "./pages/NewEntryPage";
 import EntryProcessingPage from "./pages/EntryProcessingPage";
 import SubmittedEntryPage from "./pages/SubmittedEntryPage";
+import SuccessAnimation from "./pages/SuccessAnimation";
 
 function AnimatedRoutes() {
   const location = useLocation();
@@ -21,6 +22,7 @@ function AnimatedRoutes() {
         <Route path="/new-entry" element={<NewEntryPage />} />
         <Route path="/all-entries" element={<AllEntriesPage />} />
         <Route path="/entry-processing" element={<EntryProcessingPage />} />
+        <Route path="/success" element={<SuccessAnimation />} />
         <Route path="/submitted-entry" element={<SubmittedEntryPage />} />
         {/* <Route path="/submitted-entry/:id" element={< />} /> */}
 
