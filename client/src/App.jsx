@@ -24,7 +24,7 @@ function AnimatedRoutes() {
         <Route path="/entry-processing" element={<EntryProcessingPage />} />
         <Route path="/success" element={<SuccessAnimation />} />
         <Route path="/submitted-entry" element={<SubmittedEntryPage />} />
-        {/* <Route path="/submitted-entry/:id" element={< />} /> */}
+        <Route path="/submitted-entry/:id" element={<SubmittedEntryPage />} />
 
         <Route path="/test" element={<Test />} />
       </Routes>
