@@ -38,7 +38,7 @@ function QuoteRandomizer() {
 
   return (
     <>
-      <div className="justify-left flex mt-2 p-4 items-center">
+      <div className="justify-left flex mt-2 p-4 items-center ">
         <img
           src={LotusIcon}
           alt="lotus icon"
@@ -46,7 +46,7 @@ function QuoteRandomizer() {
         ></img>
         <p className="text-[14px]">{formattedDate}</p>
       </div>
-      <div className="gradient-border flex m-4 mt-2">
+      <div className="gradient-border flex m-4 mt-2 border-2 rounded-xl border-[#554545b6] ">
         <div className="justify-center p-8 ">
           <p className="text-[20px] italic text-center font-extralight">
             "{dailyQuote}"

@@ -22,8 +22,13 @@ function NewEntryPage() {
   const handleSubmit = () => {
     setErrorMessage("");
 
+    if (!entryTitle.trim() && !entryText.trim()) {
+      setErrorMessage("Please enter an entry title and content.");
+      return;
+    }
+
     if (!entryTitle.trim()) {
-      setErrorMessage("Title is required.");
+      setErrorMessage("An entry title is required to submit an entry.");
       return;
     }
 
@@ -44,7 +49,6 @@ function NewEntryPage() {
   return (
     <PageTransition>
       <div>
-        <Navigation />
         <div className="flex justify-left m-4 mt-10">
           <Link to="/">
             <img src={BackArrow} alt="back arrow" className=""></img>
@@ -59,7 +63,7 @@ function NewEntryPage() {
             maxRows={1}
             placeholder="Enter Title (max 10 characters)"
             size="sm"
-            className="[&>div]:border-2 [&>div]:border-green-500 [&>div]:rounded-lg [&>div]:p-2 [&_textarea]:!h-full [&_textarea]:w-full [&_textarea]:border-none [&_textarea]:resize-none mb-4"
+            className="[&>div]:border-2 [&>div]:border-[#83af7d] [&>div]:rounded-lg [&>div]:p-2 [&_textarea]:!h-full [&_textarea]:w-full  [&>div]:bg-white [&_textarea]:border-none [&_textarea]:resize-none mb-4"
             value={entryTitle}
             onChange={(e) => setEntryTitle(e.target.value.slice(0, 10))}
           />
@@ -68,7 +72,7 @@ function NewEntryPage() {
             minRows={50}
             size="lg"
             placeholder="Tell me about your day..."
-            className="[&>div]:h-[400px] [&>div]:border-2 [&>div]:border-green-500 [&>div]:rounded-lg [&>div]:p-4 [&_textarea]:!h-full [&_textarea]:w-full [&_textarea]:border-none [&_textarea]:resize-none"
+            className="[&>div]:h-[400px] [&>div]:border-2 [&>div]:border-[#83af7d] [&>div]:rounded-lg [&>div]:p-4 [&_textarea]:!h-full [&>div]:bg-white [&_textarea]:w-full [&_textarea]:border-none [&_textarea]:resize-none"
             value={entryText}
             onChange={(e) => setEntryText(e.target.value)}
           />
@@ -79,12 +83,12 @@ function NewEntryPage() {
           )}
           <div className="mt-4 flex justify-end">
             <Button
-              className="bg-gradient-to-tr from-[#6f9e75] to-[#9ae094] text-white shadow-lg"
-              radius="full"
+              className="bg-[#A7CFB8] text-[#3a3a3a] shadow-lg"
+              radius="xl"
               variant="solid"
               onPress={handleSubmit}
             >
-              Reframe
+              Reframe!
             </Button>
           </div>
         </div>

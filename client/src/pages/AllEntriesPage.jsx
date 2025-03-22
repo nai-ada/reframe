@@ -91,7 +91,6 @@ function AllEntriesPage() {
   return (
     <PageTransition>
       <div>
-        <Navigation />
         <div className="flex justify-left m-2 mt-10">
           <Link to="/">
             <img src={BackArrow} alt="back arrow"></img>
