@@ -6,6 +6,7 @@ import Dashboard from "./pages/Dashboard";
 import LoginPage from "./pages/LoginPage";
 import AllEntriesPage from "./pages/AllEntriesPage";
 import NewEntryPage from "./pages/NewEntryPage";
+import Layout from "./components/Layout";
 import EntryProcessingPage from "./pages/EntryProcessingPage";
 import SubmittedEntryPage from "./pages/SubmittedEntryPage";
 import SuccessAnimation from "./pages/SuccessAnimation";
@@ -34,9 +35,11 @@ function AnimatedRoutes() {
 
 function App() {
   return (
-    <div style={{ maxWidth: "440px", margin: "0 auto" }}>
+    <div style={{ maxWidth: "400px", margin: "0 auto" }}>
       <BrowserRouter>
-        <AnimatedRoutes />
+        <Layout>
+          <AnimatedRoutes />
+        </Layout>
       </BrowserRouter>
     </div>
   );

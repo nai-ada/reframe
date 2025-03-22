@@ -320,13 +320,13 @@ function EntryProcessingPage() {
 
           <div className="mt-6 flex justify-end mr-4">
             <Button
-              style={{ backgroundColor: "#A7CFB8", color: "" }}
+              className="bg-gradient-to-tr from-[#6f9e75] to-[#9ae094] text-white shadow-lg"
               radius="full"
               variant="solid"
               disabled={!typewriterComplete || savingEntry}
               onPress={handleSubmitEntry}
             >
-              {savingEntry ? "Saving..." : "Submit Entry"}
+              {savingEntry ? "Saving..." : "Save Entry"}
             </Button>
           </div>
         </div>
