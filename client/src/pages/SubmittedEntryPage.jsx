@@ -140,13 +140,13 @@ function SubmittedEntryPage() {
             <img
               src={Edit}
               alt="edit button"
-              className="w-[20px] mr-1"
+              className="w-[20px] mr-1 cursor-pointer"
               // onClick={handleEdit}
             ></img>
             <img
               src={Delete}
               alt="delete button"
-              className="w-[20px]"
+              className="w-[20px] cursor-pointer"
               onClick={handleDelete}
             ></img>
           </div>
@@ -183,9 +183,7 @@ function SubmittedEntryPage() {
                 onClick={handleCardFlip}
               >
                 <div className="flex justify-between mb-2">
-                  <h3 className="font-medium font-semibold text-[#4b755e]">
-                    {username}
-                  </h3>
+                  <h3 className="font-medium text-[#4b755e]">{username}</h3>
                   <div className="flex justify-between items-center gap-1">
                     <img src={Tap} alt="tap icon" className="w-[20px]"></img>
                     <span className="text-xs text-gray-500">Tap to flip</span>
@@ -242,9 +240,9 @@ function SubmittedEntryPage() {
           <div className="mt-6 flex justify-center mr-4">
             <Link to="/">
               <Button
-                style={{ backgroundColor: "#A7CFB8", color: "" }}
                 radius="full"
                 variant="solid"
+                className="bg-gradient-to-tr from-[#6f9e75] to-[#9ae094] text-white shadow-lg"
               >
                 Return Home
               </Button>

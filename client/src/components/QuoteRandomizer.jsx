@@ -37,17 +37,24 @@ function QuoteRandomizer() {
   }
 
   return (
-    <div className="gradient-border m-4 p-4 mt-20 mb-40">
-      <div className="justify-center flex mt-10 p-4">
-        <p className="text-[18px]">{formattedDate}</p>
+    <>
+      <div className="justify-left flex mt-2 p-4 items-center">
+        <img
+          src={LotusIcon}
+          alt="lotus icon"
+          className="w-[20px] items-center mr-1 mb-[0.2rem]"
+        ></img>
+        <p className="text-[14px]">{formattedDate}</p>
       </div>
-      <div className="justify-center flex p-8 ">
-        <p className="text-[20px] italic font-extralight">"{dailyQuote}"</p>
+      <div className="gradient-border flex m-4 mt-2">
+        <div className="justify-center p-8 ">
+          <p className="text-[20px] italic text-center font-extralight">
+            "{dailyQuote}"
+          </p>
+        </div>
+        <div className="flex justify-center mb-10"></div>
       </div>
-      <div className="flex justify-center mb-10">
-        <img src={LotusIcon} alt="lotus icon" className="w-[50px]"></img>
-      </div>
-    </div>
+    </>
   );
 }
 

@@ -1,54 +1,36 @@
 import React from "react";
-import {
-  Navbar,
-  NavbarMenuToggle,
-  NavbarMenuItem,
-  NavbarMenu,
-  NavbarContent,
-  Link,
-} from "@heroui/react";
+import HomeIcon from "../assets/images/home.svg";
+import AllEntriesIcon from "../assets/images/all-entries.svg";
+import LogoutIcon from "../assets/images/logout.svg";
+import PageTransition from "../components/PageTransition";
+import NewEntryIcon from "../assets/images/new-entry.svg";
+import { Link } from "@heroui/react";
 
 export default function Navigation() {
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-
   const menuItems = [
-    { label: "Dashboard", href: "/" },
-    { label: "New Entry", href: "/new-entry" },
-    { label: "My Entries", href: "/all-entries" },
-    { label: "Log Out", href: "/login" },
+    { label: "Dashboard", href: "/", icon: HomeIcon },
+    { label: "New Entry", href: "/new-entry", icon: NewEntryIcon },
+    { label: "All Entries", href: "/all-entries", icon: AllEntriesIcon },
+    { label: "Log Out", href: "/login", icon: LogoutIcon },
   ];
 
   return (
-    <div
-      className="nav-container"
-      style={{ maxWidth: "440px", margin: "0 auto" }}
-    >
-      <Navbar
-        isBordered
-        isMenuOpen={isMenuOpen}
-        onMenuOpenChange={setIsMenuOpen}
-        className="max-w-[440px]"
-      >
-        <NavbarContent justify="start">
-          <NavbarMenuToggle
-            aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-          />
-        </NavbarContent>
-
-        <NavbarMenu className="navbar-menu-constrained">
-          {menuItems.map((item, index) => (
-            <NavbarMenuItem key={`${item.label}-${index}`}>
+    <PageTransition>
+      <div className="fixed bottom-0 left-0 right-0 flex justify-center z-20">
+        <nav className="bg-white shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] p-4 max-w-[400px] w-full">
+          <div className="flex justify-between items-center">
+            {menuItems.map((item, index) => (
               <Link
-                className="w-full text-[#A7CFB8]"
+                key={`${item.label}-${index}`}
                 href={item.href}
-                size="lg"
+                className="flex flex-col items-center"
               >
-                {item.label}
+                <img src={item.icon} alt={item.label} className="w-6 h-6 " />
               </Link>
-            </NavbarMenuItem>
-          ))}
-        </NavbarMenu>
-      </Navbar>
-    </div>
+            ))}
+          </div>
+        </nav>
+      </div>
+    </PageTransition>
   );
 }

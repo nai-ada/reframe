@@ -2,17 +2,17 @@ import CloseIcon from "../assets/images/close.svg";
 import { Button } from "@heroui/react";
 import { supabase } from "../supabaseClient";
 
-function DeleteEntry({ setDeleteEntry, id, entryTitle, onDeleteSuccess }) {
-  const handleDelete = async () => {
+function DeleteAllEntries({ setDeleteAllEntries, onDeleteSuccess }) {
+  const handleDeleteAll = async () => {
     try {
-      const { error } = await supabase.from("entries").delete().eq("id", id);
+      const { error } = await supabase.from("entries").delete().neq("id", 0);
 
       if (error) throw error;
 
-      setDeleteEntry(false);
+      setDeleteAllEntries(false);
       onDeleteSuccess();
     } catch (error) {
-      console.error("Delete failed:", error);
+      console.error("Delete all entries failed:", error);
     }
   };
 
@@ -24,17 +24,17 @@ function DeleteEntry({ setDeleteEntry, id, entryTitle, onDeleteSuccess }) {
             src={CloseIcon}
             alt="close icon"
             className="w-5 h-5 cursor-pointer hover:opacity-70 transition-opacity"
-            onClick={() => setDeleteEntry(false)}
+            onClick={() => setDeleteAllEntries(false)}
           />
         </div>
 
         <h1 className="delete__prompt text-xl font-semibold mt-4 mb-3 text-center">
-          Delete Entry: "{entryTitle}"?
+          Delete All Entries?
         </h1>
 
         <p className="delete__info text-gray-600 text-sm mb-6 text-center">
-          Please confirm that you'd like to delete the entry: "{entryTitle}"".
-          You won't be able to undo this action.
+          Please confirm that you'd like to delete all entries. This action
+          cannot be undone.
         </p>
 
         <div className="delete__actions flex justify-center gap-4 mt-8">
@@ -42,7 +42,7 @@ function DeleteEntry({ setDeleteEntry, id, entryTitle, onDeleteSuccess }) {
             className="px-6 py-2 bg-gradient-to-tr from-[#6f9e75] to-[#9ae094] text-white shadow-lg"
             radius="full"
             variant="solid"
-            onPress={() => setDeleteEntry(false)}
+            onPress={() => setDeleteAllEntries(false)}
           >
             Cancel
           </Button>
@@ -52,9 +52,9 @@ function DeleteEntry({ setDeleteEntry, id, entryTitle, onDeleteSuccess }) {
             radius="full"
             variant="solid"
             className="px-6 py-2"
-            onPress={handleDelete}
+            onPress={handleDeleteAll}
           >
-            Delete
+            Delete All
           </Button>
         </div>
       </div>
@@ -62,4 +62,4 @@ function DeleteEntry({ setDeleteEntry, id, entryTitle, onDeleteSuccess }) {
   );
 }
 
-export default DeleteEntry;
+export default DeleteAllEntries;

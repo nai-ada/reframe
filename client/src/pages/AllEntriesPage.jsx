@@ -6,6 +6,8 @@ import { Button } from "@heroui/react";
 import ArrowRight from "../assets/images/right-arrow.svg";
 import Add from "../assets/images/add.svg";
 import PageTransition from "../components/PageTransition";
+import DeleteAllEntries from "../components/DeleteAllEntries";
+import Delete from "../assets/images/delete.svg";
 import { supabase } from "../supabaseClient";
 
 function AllEntriesPage() {
@@ -14,6 +16,8 @@ function AllEntriesPage() {
   const [entryData, setEntryData] = useState(null);
   const [entries, setEntries] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [deleteAllEntries, setDeleteAllEntries] = useState(false);
+  const [entriesToDelete, setEntriesToDelete] = useState(null);
   const [error, setError] = useState(null);
 
   const fetchAllEntries = async () => {
@@ -46,6 +50,44 @@ function AllEntriesPage() {
     fetchAllEntries();
   }, []);
 
+  const handleDelete = () => {
+    setEntriesToDelete(entries);
+    setDeleteAllEntries(true);
+  };
+
+  const deleteEntries = async (ids = null) => {
+    try {
+      setLoading(true);
+      let query = supabase.from("entries").delete();
+
+      if (ids) {
+        query = query.in("id", ids);
+      } else {
+        query = query.neq("id", 0);
+      }
+
+      const { error } = await query;
+
+      if (error) throw error;
+      console.log(
+        ids
+          ? "Selected entries deleted successfully"
+          : "All entries deleted successfully"
+      );
+      await fetchAllEntries();
+    } catch (err) {
+      setError(err.message);
+      console.error("Error deleting entries:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const deleteAllEntriesConfirmed = () => {
+    deleteEntries();
+    setDeleteAllEntries(false);
+  };
+
   return (
     <PageTransition>
       <div>
@@ -75,13 +117,37 @@ function AllEntriesPage() {
           <div className="m-4 ">
             <div className="flex justify-between items-center">
               <h1 className="text-[22px]">All Entries</h1>
-              <div className="flex gap-1">
-                <img src={Add} alt="add button" className="w-[20px]"></img>
-                <Link to="/new-entry" className="my-4 text-xs">
+              <div className="justify-end flex">
+                <img
+                  src={Delete}
+                  alt="delete button"
+                  className="w-[20px] cursor-pointer"
+                  onClick={handleDelete}
+                ></img>
+                <h3
+                  onClick={handleDelete}
+                  className="my-4 text-xs ml-[0.1rem] cursor-pointer "
+                >
+                  Delete All
+                </h3>
+                <img
+                  src={Add}
+                  alt="add button"
+                  className="w-[20px] cursor-pointer ml-4"
+                ></img>
+                <Link to="/new-entry" className="my-4 text-xs ml-[0.2rem]">
                   Add New
                 </Link>
               </div>
             </div>
+
+            {deleteAllEntries && (
+              <DeleteAllEntries
+                setDeleteAllEntries={setDeleteAllEntries}
+                entryTitle="all entries"
+                onDeleteSuccess={deleteAllEntriesConfirmed}
+              />
+            )}
 
             {loading ? (
               <p>Loading entries...</p>
@@ -93,7 +159,7 @@ function AllEntriesPage() {
                   entries.map((entry) => (
                     <div
                       key={entry.id}
-                      className="border-1 border-[#A7CFB8] rounded-lg p-3 mb-4 rounded cursor-pointer flex justify-between bg-gradient-to-r from-[#d8f3ff] to-[#e2ffdd] shadow-md"
+                      className="border-1 border-[#A7CFB8] rounded-lg p-3 mb-4 cursor-pointer flex justify-between bg-gradient-to-r from-[#d8f3ff] to-[#e2ffdd] shadow-md"
                       onClick={() => navigate(`/submitted-entry/${entry.id}`)}
                     >
                       <h2 className="text-medium">
@@ -117,7 +183,7 @@ function AllEntriesPage() {
                     <p className="text-medium mb-6">No entries found.</p>
                     <Link to="/new-entry">
                       <Button
-                        style={{ backgroundColor: "#A7CFB8", color: "" }}
+                        className="bg-gradient-to-tr from-[#6f9e75] to-[#9ae094] text-white shadow-lg"
                         radius="full"
                         variant="solid"
                       >

@@ -79,7 +79,7 @@ function NewEntryPage() {
           )}
           <div className="mt-4 flex justify-end">
             <Button
-              style={{ backgroundColor: "#A7CFB8", color: "" }}
+              className="bg-gradient-to-tr from-[#6f9e75] to-[#9ae094] text-white shadow-lg"
               radius="full"
               variant="solid"
               onPress={handleSubmit}

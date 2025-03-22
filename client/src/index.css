@@ -8,6 +8,21 @@ html {
   overflow-x: hidden;
 }
 
+.layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1 0 auto;
+  padding-bottom: 60px;
+}
+
+.nav-container {
+  flex-shrink: 0;
+}
+
 :before,
 :after {
   box-sizing: inherit;
@@ -59,7 +74,7 @@ p {
 .gradient-border {
   position: relative;
   border-radius: 5px;
-  background: rgb(236, 255, 254);
+  background: rgb(245, 255, 244);
   padding: 2px;
 }
 
@@ -70,7 +85,8 @@ p {
   left: -2px;
   right: -2px;
   bottom: -2px;
-  background: linear-gradient(to bottom, #b0ceff, #499940b6);
+  background: linear-gradient(to bottom, #b0e9ff, #94c290b6);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   border-radius: 5px;
   z-index: -1;
 }
