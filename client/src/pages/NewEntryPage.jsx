@@ -1,17 +1,30 @@
-import React, { useState } from "react";
-import Navigation from "../components/Navigation";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import BackArrow from "../assets/images/back-arrow.svg";
 import { Textarea, Button } from "@heroui/react";
 import PageTransition from "../components/PageTransition";
+import { supabase } from "../supabaseClient";
 
 function NewEntryPage() {
   const navigate = useNavigate();
-  const currentDate = new Date();
+  const location = useLocation();
   const [entryText, setEntryText] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [entryTitle, setEntryTitle] = useState("");
+  const [isEditing, setIsEditing] = useState(false);
+  const [entryId, setEntryId] = useState(null);
 
+  useEffect(() => {
+    if (location.state && location.state.editEntry) {
+      const { id, entry_title, original_text } = location.state.editEntry;
+      setEntryTitle(entry_title);
+      setEntryText(original_text);
+      setIsEditing(true);
+      setEntryId(id);
+    }
+  }, [location]);
+
+  const currentDate = new Date();
   const formattedDate = currentDate.toLocaleDateString("en-US", {
     weekday: "long",
     month: "long",
@@ -19,7 +32,7 @@ function NewEntryPage() {
     year: "numeric",
   });
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setErrorMessage("");
 
     if (!entryTitle.trim() && !entryText.trim()) {
@@ -42,6 +55,8 @@ function NewEntryPage() {
         originalText: entryText,
         date: formattedDate,
         entryTitle: entryTitle.trim(),
+        isEditing: isEditing,
+        entryId: entryId,
       },
     });
   };
@@ -55,7 +70,9 @@ function NewEntryPage() {
           </Link>
         </div>
         <div className="flex items-center justify-between m-4">
-          <h1 className="text-[22px] pr-4">New Entry</h1>
+          <h1 className="text-[22px] pr-4">
+            {isEditing ? "Edit Entry" : "New Entry"}
+          </h1>
           <h2 className="text-[12px]">{formattedDate}</h2>
         </div>
         <div className="m-4">
@@ -68,7 +85,7 @@ function NewEntryPage() {
             onChange={(e) => setEntryTitle(e.target.value.slice(0, 10))}
           />
           <Textarea
-            label="New Entry"
+            label={isEditing ? "Edit Entry" : "New Entry"}
             minRows={50}
             size="lg"
             placeholder="Tell me about your day..."
@@ -88,7 +105,7 @@ function NewEntryPage() {
               variant="solid"
               onPress={handleSubmit}
             >
-              Reframe!
+              {isEditing ? "Update" : "Reframe!"}
             </Button>
           </div>
         </div>

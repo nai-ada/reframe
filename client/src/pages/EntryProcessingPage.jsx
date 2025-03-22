@@ -44,7 +44,8 @@ apiClient.interceptors.request.use(async (config) => {
 function EntryProcessingPage() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { originalText, date, entryTitle } = location.state || {};
+  const { originalText, date, entryTitle, isEditing, entryId } =
+    location.state || {};
 
   const [isLoading, setIsLoading] = useState(true);
   const [reframedText, setReframedText] = useState("");
@@ -66,24 +67,49 @@ function EntryProcessingPage() {
     try {
       setSavingEntry(true);
 
-      const { data, error } = await supabase
-        .from("entries")
-        .insert([
-          {
+      if (isEditing) {
+        const { data, error } = await supabase
+          .from("entries")
+          .update({
             original_text: originalText,
             reframed_text: reframedText,
-            date: new Date(),
             entry_title: entryTitle,
             original_score: originalScore,
             reframed_score: reframedScore,
             mindset_tips: mindsetTips,
+          })
+          .eq("id", entryId)
+          .select();
+
+        if (error) throw error;
+
+        navigate(`/submitted-entry/${entryId}`, {
+          state: {
+            entryData: data[0],
+            refresh: true,
           },
-        ])
-        .select();
+        });
+      } else {
+        const { data, error } = await supabase
+          .from("entries")
+          .insert([
+            {
+              original_text: originalText,
+              reframed_text: reframedText,
+              date: new Date(),
+              entry_title: entryTitle,
+              original_score: originalScore,
+              reframed_score: reframedScore,
+              mindset_tips: mindsetTips,
+              is_new: true,
+            },
+          ])
+          .select();
 
-      if (error) throw error;
+        if (error) throw error;
 
-      navigate("/success", { state: { entryData: data[0] } });
+        navigate("/success", { state: { entryData: data[0] } });
+      }
     } catch (error) {
       console.error("Error saving entry:", error);
       setError("Failed to save entry. Please try again.");
@@ -248,7 +274,6 @@ function EntryProcessingPage() {
               <span className="font-semibold text-[#A7CFB8]">{username}</span>'s
               Entry
             </h2>
-
             <Accordion className="custom-accordion">
               <AccordionItem
                 title={
@@ -332,7 +357,11 @@ function EntryProcessingPage() {
               disabled={!typewriterComplete || savingEntry}
               onPress={handleSubmitEntry}
             >
-              {savingEntry ? "Saving..." : "Save Entry"}
+              {savingEntry
+                ? "Saving..."
+                : isEditing
+                ? "Update Entry"
+                : "Save Entry"}
             </Button>
           </div>
         </div>
