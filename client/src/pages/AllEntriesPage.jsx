@@ -48,7 +48,7 @@ function AllEntriesPage() {
 
   useEffect(() => {
     fetchAllEntries();
-  }, []);
+  }, [location.state?.refresh]);
 
   const handleDelete = () => {
     setEntriesToDelete(entries);
@@ -86,6 +86,29 @@ function AllEntriesPage() {
   const deleteAllEntriesConfirmed = () => {
     deleteEntries();
     setDeleteAllEntries(false);
+  };
+
+  const markEntryAsViewed = async (entryId) => {
+    try {
+      const { error } = await supabase
+        .from("entries")
+        .update({ is_new: false })
+        .eq("id", entryId);
+
+      if (error) throw error;
+    } catch (err) {
+      console.error("Error marking entry as viewed:", err);
+    }
+  };
+
+  const isEntryNew = (entry) => {
+    if (entry.is_new === false) return false;
+    if (entry.is_new === true) return true;
+
+    const entryDate = new Date(entry.created_at || entry.date);
+    const now = new Date();
+    const hoursDiff = (now - entryDate) / (1000 * 60 * 60);
+    return hoursDiff < 24;
   };
 
   return (
@@ -158,9 +181,20 @@ function AllEntriesPage() {
                   entries.map((entry) => (
                     <div
                       key={entry.id}
-                      className="border-1 border-[#A7CFB8] rounded-lg p-3 mb-4 cursor-pointer flex justify-between bg-gradient-to-r from-[#d8f3ff] to-[#e2ffdd] shadow-md"
-                      onClick={() => navigate(`/submitted-entry/${entry.id}`)}
+                      className="border-1 border-[#A7CFB8] rounded-lg p-3 mb-4 cursor-pointer flex justify-between bg-gradient-to-r from-[#d8f3ff] to-[#e2ffdd] shadow-md relative"
+                      onClick={() => {
+                        if (isEntryNew(entry)) {
+                          markEntryAsViewed(entry.id);
+                        }
+                        navigate(`/submitted-entry/${entry.id}`);
+                      }}
                     >
+                      {isEntryNew(entry) && (
+                        <div className="absolute -top-2 -right-2 bg-[#5ea7c4b6] text-white px-2 py-1 rounded-xl text-xs font-figtree font-semibold animate-pulse">
+                          New!
+                        </div>
+                      )}
+
                       <h2 className="text-medium">
                         {entry.entry_title || "Untitled Entry"}
                       </h2>

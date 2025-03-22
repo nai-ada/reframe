@@ -63,6 +63,18 @@ function SubmittedEntryPage() {
     }
   };
 
+  const handleEdit = () => {
+    navigate("/new-entry", {
+      state: {
+        editEntry: {
+          id: entryData.id,
+          entry_title: entryData.entry_title,
+          original_text: entryData.original_text,
+        },
+      },
+    });
+  };
+
   useEffect(() => {
     const fetchEntry = async () => {
       if (id) {
@@ -139,7 +151,7 @@ function SubmittedEntryPage() {
               src={Edit}
               alt="edit button"
               className="w-[20px] mr-1 cursor-pointer"
-              // onClick={handleEdit}
+              onClick={handleEdit}
             ></img>
             <img
               src={Delete}
