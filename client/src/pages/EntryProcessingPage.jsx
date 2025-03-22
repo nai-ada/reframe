@@ -7,6 +7,7 @@ import MindsetTips from "../components/MindsetTips";
 import EntryComparisons from "../components/EntryComparisons";
 import axios from "axios";
 import TypewriterEffect from "../components/TypewriterEffect";
+import LeafIcon from "../assets/images/leaf.svg";
 import { Spinner } from "@heroui/spinner";
 import { supabase } from "../supabaseClient";
 
@@ -170,7 +171,6 @@ function EntryProcessingPage() {
     return (
       <PageTransition>
         <div>
-          <Navigation />
           <div className="flex justify-center items-center h-[70vh]">
             <div className="text-center">
               <h2 className="text-xl mb-4">{error}</h2>
@@ -191,7 +191,6 @@ function EntryProcessingPage() {
     return (
       <PageTransition>
         <div>
-          <Navigation />
           <div className="flex flex-col justify-center items-center h-[70vh]">
             <Spinner color="success" size="sm" className="mb-2" />
             <h2 className="text-xl mb-2 text-[#A7CFB8]">Generating Entry...</h2>
@@ -206,7 +205,6 @@ function EntryProcessingPage() {
     return (
       <PageTransition>
         <div>
-          <Navigation />
           <div className="flex justify-center items-center h-[70vh]">
             <div className="text-center">
               <h2 className="text-xl mb-4">No entry data available</h2>
@@ -226,8 +224,16 @@ function EntryProcessingPage() {
   return (
     <PageTransition>
       <div>
-        <Navigation />
-
+        <div className="logo-container flex items-center justify-center mt-10 overflow-x-hidden">
+          <h1 className="logo text-[26px] mr-1">
+            Refra:<span className="logo-highlight font-thin">me</span>
+          </h1>
+          <img
+            src={LeafIcon}
+            alt="leaf icon"
+            className="w-[26px] max-w-full self-center -mt-1"
+          />
+        </div>
         <div className="flex items-center justify-between m-4 mt-10 mb-0">
           <h1 className="text-[22px] pr-4">{entryTitle}</h1>
         </div>

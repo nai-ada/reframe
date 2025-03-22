@@ -6,6 +6,7 @@ import Dashboard from "./pages/Dashboard";
 import LoginPage from "./pages/LoginPage";
 import AllEntriesPage from "./pages/AllEntriesPage";
 import NewEntryPage from "./pages/NewEntryPage";
+import Navigation from "./components/Navigation";
 import Layout from "./components/Layout";
 import EntryProcessingPage from "./pages/EntryProcessingPage";
 import SubmittedEntryPage from "./pages/SubmittedEntryPage";
@@ -16,6 +17,7 @@ function AnimatedRoutes() {
 
   return (
     <AnimatePresence mode="wait">
+      <Navigation />
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<Dashboard />} />
         <Route path="/signup" element={<SignUpPage />} />
@@ -35,7 +37,10 @@ function AnimatedRoutes() {
 
 function App() {
   return (
-    <div style={{ maxWidth: "400px", margin: "0 auto" }}>
+    <div
+      style={{ maxWidth: "400px", margin: "0 auto" }}
+      className="main-gradient"
+    >
       <BrowserRouter>
         <Layout>
           <AnimatedRoutes />

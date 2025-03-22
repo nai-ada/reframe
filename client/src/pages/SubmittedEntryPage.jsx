@@ -109,7 +109,6 @@ function SubmittedEntryPage() {
     return (
       <PageTransition>
         <div>
-          <Navigation />
           <div className="flex justify-center items-center h-[70vh]">
             <div className="text-center">
               <h2 className="text-xl mb-4">Loading entry data...</h2>
@@ -123,14 +122,13 @@ function SubmittedEntryPage() {
   return (
     <PageTransition>
       <div>
-        <Navigation />
         <div className="flex justify-left m-2 mt-10">
-          <Link to="/all-entries">
+          <Link to="/">
             <img src={BackArrow} alt="back arrow" className=""></img>
           </Link>
         </div>
-        <div className="flex items-center justify-between m-4 mb-0">
-          <h1 className="text-[22px] pr-4">
+        <div className="flex items-center justify-left m-4 mb-0">
+          <h1 className="text-[30px] pr-4">
             {entryData.entry_title || "Untitled Entry"}
           </h1>
         </div>
@@ -237,14 +235,14 @@ function SubmittedEntryPage() {
             />
           )}
 
-          <div className="mt-6 flex justify-center mr-4">
-            <Link to="/">
+          <div className=" flex justify-center mr-4 ">
+            <Link to="/all-entries">
               <Button
                 radius="full"
                 variant="solid"
                 className="bg-gradient-to-tr from-[#6f9e75] to-[#9ae094] text-white shadow-lg"
               >
-                Return Home
+                All Entries
               </Button>
             </Link>
           </div>
