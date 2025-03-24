@@ -58,7 +58,6 @@ function EntryProcessingPage() {
   const [mindsetTips, setMindsetTips] = useState("");
   const [savingEntry, setSavingEntry] = useState(false);
 
-  const username = localStorage.getItem("username") || "User";
   const geminiApiKey = import.meta.env.VITE_GEMINI_API_KEY;
 
   const saveEntryToSupabase = async () => {
@@ -218,7 +217,7 @@ function EntryProcessingPage() {
       <PageTransition>
         <div>
           <div className="flex flex-col justify-center items-center h-[70vh]">
-            <Spinner color="success" size="sm" className="mb-2" />
+            <Spinner color="#A7CFB8" size="sm" className="mb-2" />
             <h2 className="text-xl mb-2 text-[#A7CFB8]">Generating Entry...</h2>
             <p className="text-sm text-gray-500">This may take a moment</p>
           </div>
@@ -271,22 +270,20 @@ function EntryProcessingPage() {
         <div className="m-4">
           <div className="mb-6 mt-10">
             <h2 className="text-xl font-medium mb-2 ml-4">
-              <span className="font-semibold text-[#A7CFB8]">{username}</span>'s
-              Entry
+              <span className="font-semibold text-[#A7CFB8]">Your</span> Entry
             </h2>
             <Accordion className="custom-accordion">
               <AccordionItem
                 title={
-                  <div className="text-sm text-gray-700 px-4">
+                  <div className="text-md font-figtree text-gray-700 px-4">
                     {originalText.length > 20
                       ? `${originalText.substring(0, 20)}...`
                       : originalText}
                   </div>
                 }
-                textValue={`${username}'s entry: ${originalText.substring(
-                  0,
-                  50
-                )}${originalText.length > 50 ? "..." : ""}`}
+                textValue={`Your entry: ${originalText.substring(0, 50)}${
+                  originalText.length > 50 ? "..." : ""
+                }`}
                 className="border border-gray-300 rounded-lg mx-2"
               >
                 <div
@@ -310,7 +307,7 @@ function EntryProcessingPage() {
             <div
               className={`p-4 border-2 ${
                 typewriterComplete ? "border-[#ADD8E6]" : "border-[#A7CFB8]"
-              } rounded-lg mx-4 text-sm transition-colors duration-500 ease-in`}
+              } rounded-lg mx-4 text-md font-figtree transition-colors duration-500 ease-in`}
               style={{
                 wordWrap: "break-word",
                 overflowWrap: "break-word",
@@ -335,7 +332,7 @@ function EntryProcessingPage() {
             </div>
           </div>
 
-          <div className="border-t m-4 relative top-10"></div>
+          <div className="border-t m-4 relative top-10 border-[#A7CFB8] border-1"></div>
 
           <MindsetTips
             originalText={originalText}
@@ -351,8 +348,8 @@ function EntryProcessingPage() {
 
           <div className="mt-6 flex justify-end mr-4">
             <Button
-              className="bg-gradient-to-tr from-[#6f9e75] to-[#9ae094] text-white shadow-lg"
-              radius="full"
+              className="bg-[#bae0b6] text-[#3a3a3a] font-medium shadow-lg mb-10"
+              radius="xl"
               variant="solid"
               disabled={!typewriterComplete || savingEntry}
               onPress={handleSubmitEntry}

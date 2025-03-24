@@ -139,7 +139,7 @@ function AllEntriesPage() {
           <div className="m-4 ">
             <div className="flex justify-between items-center">
               <h1 className="text-[22px]">All Entries</h1>
-              <div className="justify-end flex">
+              <div className="justify-end flex items-center">
                 <img
                   src={Delete}
                   alt="delete button"
@@ -152,12 +152,16 @@ function AllEntriesPage() {
                 >
                   Delete All
                 </h3>
-                <img
-                  src={Add}
-                  alt="add button"
-                  className="w-[20px] cursor-pointer ml-4"
-                ></img>
-                <Link to="/new-entry" className="my-4 text-xs ml-[0.2rem]">
+
+                <Link
+                  to="/new-entry"
+                  className="my-4 text-xs flex items-center"
+                >
+                  <img
+                    src={Add}
+                    alt="add button"
+                    className="w-[20px] cursor-pointer ml-4 mr-[0.2rem]"
+                  ></img>
                   Add New
                 </Link>
               </div>
@@ -176,7 +180,7 @@ function AllEntriesPage() {
             ) : error ? (
               <p className="text-red-500">Error: {error}</p>
             ) : (
-              <div className="mt-10">
+              <div className="mt-10 mb-14">
                 {entries.length > 0 ? (
                   entries.map((entry) => (
                     <div
@@ -216,8 +220,8 @@ function AllEntriesPage() {
                     <p className="text-medium mb-6">No entries found.</p>
                     <Link to="/new-entry">
                       <Button
-                        className="bg-gradient-to-tr from-[#6f9e75] to-[#9ae094] text-white shadow-lg"
-                        radius="full"
+                        className="bg-[#bae0b6] text-[#3a3a3a] font-medium shadow-lg mb-10"
+                        radius="xl"
                         variant="solid"
                       >
                         Add New Entry

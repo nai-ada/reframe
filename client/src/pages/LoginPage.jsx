@@ -2,52 +2,58 @@ import LoginAuthForm from "../components/LoginAuthForm";
 import { Link } from "react-router-dom";
 import LeafIcon from "../assets/images/leaf.svg";
 import PageTransition from "../components/PageTransition";
+import { useEffect } from "react";
 
 function LoginPage() {
+  useEffect(() => {
+    const originalStyle = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = originalStyle;
+    };
+  }, []);
+
   return (
-    <>
-      <PageTransition>
-        <div className="min-h-screen bg-gradient-to-b from-[#DCFFFB] via-[#F6FFF1] to-white overflow-x-hidden">
-          <div className="justify-center flex-column">
-            <div className="logo-container flex justify-center">
-              <h1 className="logo mt-20">
-                Refra:<span className="logo-highlight font-extralight">me</span>
-              </h1>
-            </div>
-            <div className="slogan-container flex justify-center">
-              <h2 className="slogan text-center text-[18px]">
-                Your journey to a positive mindset
-              </h2>
-            </div>
-            <div className="leaf-icon flex justify-center mt-10">
-              <img
-                src={LeafIcon}
-                alt="leaf icon"
-                className="w-[150px] max-w-full"
-              ></img>
-            </div>
-            <div className="flex justify-center">
-              <div className="w-full max-w-xs px-7">
-                <h2 className="create-title mt-16 text-left text-[26px]">
-                  Login
-                </h2>
-              </div>
-            </div>
-            <div className="flex justify-center mt-8">
-              <LoginAuthForm />
-            </div>
+    <PageTransition>
+      <div className="h-screen relative bg-gradient-to-b from-[#DCFFFB] via-[#F6FFF1] to-white overflow-hidden">
+        <div className="absolute top-[45%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-xs">
+          <div className="flex items-center justify-center">
+            <h1 className="logo text-[36px] mr-1">
+              Refra:<span className="logo-highlight font-thin">me</span>
+            </h1>
+            <img
+              src={LeafIcon}
+              alt="leaf icon"
+              className="w-[36px] self-center -mt-1"
+            />
           </div>
-          <div className="mb-32 mt-10 flex justify-center">
+
+          <h2 className="slogan font-figtree text-[14px] my-4 text-center">
+            Your journey to a positive mindset
+          </h2>
+
+          <img
+            src={LeafIcon}
+            alt="leaf icon"
+            className="w-[80px] mx-auto mb-6"
+          />
+
+          <div className="w-full px-6">
+            <h2 className="text-left text-[20px] mb-8">Login</h2>
+            <LoginAuthForm />
+          </div>
+
+          <div className="mt-4 text-center">
             <p>
               Don't have an account?{" "}
-              <Link to="/signup" className="text-[#A7CFB8] underline">
+              <Link to="/signup" className="text-[#4D8B67] underline">
                 Sign Up
               </Link>
             </p>
           </div>
         </div>
-      </PageTransition>
-    </>
+      </div>
+    </PageTransition>
   );
 }
 

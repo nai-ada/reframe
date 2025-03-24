@@ -1,11 +1,18 @@
 import React from "react";
 import { Link } from "@heroui/react";
+import { useLocation } from "react-router-dom";
 import HomeIcon from "../assets/images/home.svg";
 import AllEntriesIcon from "../assets/images/all-entries.svg";
 import LogoutIcon from "../assets/images/logout.svg";
 import NewEntryIcon from "../assets/images/new-entry.svg";
 
 export default function Navigation() {
+  const location = useLocation();
+
+  if (location.pathname === "/login" || location.pathname === "/signup") {
+    return null;
+  }
+
   const menuItems = [
     { label: "Dashboard", href: "/", icon: HomeIcon },
     { label: "New Entry", href: "/new-entry", icon: NewEntryIcon },

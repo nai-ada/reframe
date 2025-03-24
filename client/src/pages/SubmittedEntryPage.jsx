@@ -23,8 +23,6 @@ function SubmittedEntryPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const username = localStorage.getItem("username") || "User";
-
   const handleCardFlip = () => {
     setIsFlipped(!isFlipped);
   };
@@ -170,8 +168,8 @@ function SubmittedEntryPage() {
               >
                 <div className="flex justify-between mb-2 ">
                   <h3 className="text-medium">
-                    <span className="font-semibold text-[#4b755e]">Refra:</span>
-                    <span className="logo-highlight text-[#4b755e] font-thin">
+                    <span className="font-semibold text-[#252525]">Refra:</span>
+                    <span className="logo-highlight text-[#252525] font-thin">
                       me
                     </span>
                   </h3>
@@ -181,7 +179,7 @@ function SubmittedEntryPage() {
                   </div>
                 </div>
                 <p
-                  className="mt-6 break-words whitespace-pre-wrap"
+                  className="mt-6 break-words whitespace-pre-wrap text-[14px] p-1"
                   style={{ wordWrap: "break-word", overflowWrap: "break-word" }}
                 >
                   {entryData.reframed_text}
@@ -193,14 +191,14 @@ function SubmittedEntryPage() {
                 onClick={handleCardFlip}
               >
                 <div className="flex justify-between mb-2">
-                  <h3 className="font-medium text-[#4b755e]">{username}</h3>
+                  <h3 className="font-medium text-[#9fcfb4]">Me</h3>
                   <div className="flex justify-between items-center gap-1">
                     <img src={Tap} alt="tap icon" className="w-[20px]"></img>
                     <span className="text-xs text-gray-500">Tap to flip</span>
                   </div>
                 </div>
                 <p
-                  className="mt-6 break-words whitespace-pre-wrap"
+                  className="mt-6 break-words whitespace-pre-wrap text-[14px] p-1"
                   style={{ wordWrap: "break-word", overflowWrap: "break-word" }}
                 >
                   {entryData.original_text}
@@ -213,7 +211,7 @@ function SubmittedEntryPage() {
             <div className="mb-6 mt-16">
               <h2 className="text-xl font-medium mb-2 ml-4">Mindset Tips</h2>
               <div
-                className="p-4 text-sm break-words whitespace-pre-wrap"
+                className="p-4 break-words whitespace-pre-wrap"
                 style={{ wordWrap: "break-word", overflowWrap: "break-word" }}
               >
                 {entryData.mindset_tips.split("\n").map((line, index) => {
@@ -222,7 +220,7 @@ function SubmittedEntryPage() {
                     return (
                       <p key={index} className="mb-4 m-1">
                         •{" "}
-                        <span className="text-xs break-words">
+                        <span className="text-sm break-words">
                           {trimmed.substring(2)}
                         </span>
                       </p>
@@ -250,11 +248,11 @@ function SubmittedEntryPage() {
           <div className=" flex justify-center mr-4 ">
             <Link to="/all-entries">
               <Button
-                radius="full"
+                className="bg-[#bae0b6] text-[#3a3a3a] font-medium shadow-lg mb-10"
+                radius="xl"
                 variant="solid"
-                className="bg-gradient-to-tr from-[#6f9e75] to-[#9ae094] text-white shadow-lg"
               >
-                All Entries
+                View All Entries
               </Button>
             </Link>
           </div>

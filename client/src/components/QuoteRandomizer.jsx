@@ -46,7 +46,7 @@ function QuoteRandomizer() {
         ></img>
         <p className="text-[14px]">{formattedDate}</p>
       </div>
-      <div className="gradient-border flex m-4 mt-2 border-2 rounded-xl border-[#554545b6] ">
+      <div className="gradient-border flex m-4 mt-2 border-2 rounded-xl border-[#b2d9db] ">
         <div className="justify-center p-8 ">
           <p className="text-[20px] italic text-center font-extralight">
             "{dailyQuote}"

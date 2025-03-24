@@ -18,7 +18,7 @@ function DeleteAllEntries({ setDeleteAllEntries, onDeleteSuccess }) {
 
   return (
     <div className="delete__overlay fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-      <div className="delete bg-white rounded-lg p-6 w-[90%] max-w-md relative shadow-xl">
+      <div className="delete bg-white rounded-lg p-6 w-[90%] max-w-sm relative shadow-xl">
         <div className="absolute top-3 right-3">
           <img
             src={CloseIcon}
@@ -39,8 +39,8 @@ function DeleteAllEntries({ setDeleteAllEntries, onDeleteSuccess }) {
 
         <div className="delete__actions flex justify-center gap-4 mt-8">
           <Button
-            className="px-6 py-2 bg-gradient-to-tr from-[#6f9e75] to-[#9ae094] text-white shadow-lg"
-            radius="full"
+            className="bg-[#bae0b6] text-[#3a3a3a] font-medium shadow-lg"
+            radius="xl"
             variant="solid"
             onPress={() => setDeleteAllEntries(false)}
           >
@@ -48,10 +48,9 @@ function DeleteAllEntries({ setDeleteAllEntries, onDeleteSuccess }) {
           </Button>
 
           <Button
-            style={{ backgroundColor: "#ef4444", color: "white" }}
-            radius="full"
+            className="bg-[#ef4444] text-white font-medium shadow-lg"
+            radius="xl"
             variant="solid"
-            className="px-6 py-2"
             onPress={handleDeleteAll}
           >
             Delete All

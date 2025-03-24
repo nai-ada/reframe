@@ -145,7 +145,7 @@ function MindsetTips({ originalText, updateTipsText }) {
 
           {isLoading && (
             <div className="flex flex-start items-center ml-3">
-              <Spinner color="success" size="sm" className="mr-2" />
+              <Spinner color="#A7CFB8" size="sm" className="mr-2" />
             </div>
           )}
         </div>
