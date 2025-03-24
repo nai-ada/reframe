@@ -73,8 +73,6 @@ function EntryProcessingPage() {
             original_text: originalText,
             reframed_text: reframedText,
             entry_title: entryTitle,
-            original_score: originalScore,
-            reframed_score: reframedScore,
             mindset_tips: mindsetTips,
           })
           .eq("id", entryId)
@@ -97,8 +95,6 @@ function EntryProcessingPage() {
               reframed_text: reframedText,
               date: new Date(),
               entry_title: entryTitle,
-              original_score: originalScore,
-              reframed_score: reframedScore,
               mindset_tips: mindsetTips,
               is_new: true,
             },
@@ -342,8 +338,6 @@ function EntryProcessingPage() {
           <EntryComparisons
             originalText={originalText}
             reframedText={reframedText}
-            updateOriginalScore={setOriginalScore}
-            updateReframedScore={setReframedScore}
           />
 
           <div className="mt-6 flex justify-end mr-4">
