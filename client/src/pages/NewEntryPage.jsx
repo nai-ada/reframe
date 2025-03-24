@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import BackArrow from "../assets/images/back-arrow.svg";
+import Important from "../assets/images/important.svg";
 import { Textarea, Button } from "@heroui/react";
 import PageTransition from "../components/PageTransition";
 import { supabase } from "../supabaseClient";
@@ -69,6 +70,16 @@ function NewEntryPage() {
             <img src={BackArrow} alt="back arrow" className=""></img>
           </Link>
         </div>
+        <div className="flex justify-center items-center mx-4 max-w-4xl px-4 py-2 mt-4 rounded-xl border-[#ffdf4e] border-2">
+          <img src={Important} alt="Important" className="mr-2 flex-shrink-0" />
+          <p className="text-[#EA3323] font-semibold text-[12px] ml-1 inline-flex items-center flex-wrap">
+            Please note that this application is currently in Beta. All entries
+            are publicly available and can be viewed by anyone using Refra:me.
+            Please avoid writing down personal information when submitting an
+            entry.
+          </p>
+        </div>
+
         <div className="flex items-center justify-between m-4">
           <h1 className="text-[22px] pr-4">
             {isEditing ? "Edit Entry" : "New Entry"}
@@ -89,7 +100,7 @@ function NewEntryPage() {
             minRows={50}
             size="lg"
             placeholder="Tell me about your day..."
-            className="[&>div]:h-[400px] [&>div]:border-2 [&>div]:border-[#83af7d] [&>div]:rounded-lg [&>div]:p-4 [&_textarea]:!h-full [&>div]:bg-white [&_textarea]:w-full [&_textarea]:border-none [&_textarea]:resize-none"
+            className=" [&>div]:h-[400px] [&>div]:border-2 [&>div]:border-[#83af7d] [&>div]:rounded-lg [&>div]:p-4 [&_textarea]:!h-full [&>div]:bg-white [&_textarea]:w-full [&_textarea]:border-none [&_textarea]:resize-none"
             value={entryText}
             onChange={(e) => setEntryText(e.target.value)}
           />
@@ -100,7 +111,7 @@ function NewEntryPage() {
           )}
           <div className="mt-4 flex justify-end">
             <Button
-              className="bg-[#A7CFB8] text-[#3a3a3a] shadow-lg"
+              className="bg-[#bae0b6] text-[#3a3a3a] font-medium shadow-lg"
               radius="xl"
               variant="solid"
               onPress={handleSubmit}

@@ -33,7 +33,6 @@ function EntryComparisons({ originalText, reframedText }) {
   const [error, setError] = useState("");
   const [apiCallMade, setApiCallMade] = useState(false);
 
-  const username = localStorage.getItem("username") || "User";
   const geminiApiKey = import.meta.env.VITE_GEMINI_API_KEY;
 
   const processText = useCallback(async () => {
@@ -161,10 +160,9 @@ function EntryComparisons({ originalText, reframedText }) {
         {!isLoading ? (
           <div className="p-4 flex flex-row flex-wrap justify-between gap-4 w-[80%] max-w-[800px] mx-auto">
             {/* User's Entry Score */}
-            <div className="flex-1 min-w-[200px] flex flex-row gap-2 items-center border-2 border-[#ADD8E6] rounded-lg p-4 transition-colors duration-500 ease-in">
+            <div className="flex-1 min-w-[200px] flex flex-row gap-2 items-center border-2 border-[#bae0b6] rounded-lg p-4 transition-colors duration-500 ease-in">
               <span className="font-medium text-lg font-figtree whitespace-nowrap">
-                <span className="font-medium text-[#A7CFB8]">{username}</span>
-                's Entry
+                Your Entry
               </span>
               <div className="flex items-center ml-auto">
                 <div
@@ -178,7 +176,7 @@ function EntryComparisons({ originalText, reframedText }) {
             </div>
 
             {/* Reframed Entry Score */}
-            <div className="flex-1 min-w-[200px] flex flex-row gap-2 items-center border-2 border-[#ADD8E6] rounded-lg p-4 transition-colors duration-500 ease-in">
+            <div className="flex-1 min-w-[200px] flex flex-row gap-2 items-center border-2 border-[#bae0b6] rounded-lg p-4 transition-colors duration-500 ease-in">
               <span className="font-medium text-lg font-figtree whitespace-nowrap">
                 Refra<span className="font-thin">:me</span>
               </span>
