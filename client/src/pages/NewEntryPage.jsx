@@ -4,7 +4,6 @@ import BackArrow from "../assets/images/back-arrow.svg";
 import Important from "../assets/images/important.svg";
 import { Textarea, Button } from "@heroui/react";
 import PageTransition from "../components/PageTransition";
-import { supabase } from "../supabaseClient";
 
 function NewEntryPage() {
   const navigate = useNavigate();
@@ -67,7 +66,7 @@ function NewEntryPage() {
       <div>
         <div className="flex justify-left m-4 mt-10">
           <Link to="/">
-            <img src={BackArrow} alt="back arrow" className=""></img>
+            <img src={BackArrow} alt="back arrow"></img>
           </Link>
         </div>
         <div className="flex justify-center items-center mx-4 max-w-4xl px-4 py-2 mt-4 rounded-xl border-[#ffdf4e] border-2">
@@ -100,7 +99,7 @@ function NewEntryPage() {
             minRows={50}
             size="lg"
             placeholder="Tell me about your day..."
-            className=" [&>div]:h-[400px] [&>div]:border-2 [&>div]:border-[#83af7d] [&>div]:rounded-lg [&>div]:p-4 [&_textarea]:!h-full [&>div]:bg-white [&_textarea]:w-full [&_textarea]:border-none [&_textarea]:resize-none"
+            className="[&>div]:h-[400px] [&>div]:border-2 [&>div]:border-[#83af7d] [&>div]:rounded-lg [&>div]:p-4 [&_textarea]:!h-full [&>div]:bg-white [&_textarea]:w-full [&_textarea]:border-none [&_textarea]:resize-none"
             value={entryText}
             onChange={(e) => setEntryText(e.target.value)}
           />

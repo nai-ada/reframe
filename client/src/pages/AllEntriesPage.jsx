@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate, Link } from "react-router-dom";
-import Navigation from "../components/Navigation";
 import BackArrow from "../assets/images/back-arrow.svg";
 import { Button } from "@heroui/react";
 import ArrowRight from "../assets/images/right-arrow.svg";
@@ -32,7 +31,6 @@ function AllEntriesPage() {
       if (data) setEntries(data);
     } catch (err) {
       setError(err.message);
-      console.error("Error fetching entries:", err);
     } finally {
       setLoading(false);
     }
@@ -69,15 +67,10 @@ function AllEntriesPage() {
       const { error } = await query;
 
       if (error) throw error;
-      console.log(
-        ids
-          ? "Selected entries deleted successfully"
-          : "All entries deleted successfully"
-      );
+
       await fetchAllEntries();
     } catch (err) {
       setError(err.message);
-      console.error("Error deleting entries:", err);
     } finally {
       setLoading(false);
     }
@@ -97,7 +90,7 @@ function AllEntriesPage() {
 
       if (error) throw error;
     } catch (err) {
-      console.error("Error marking entry as viewed:", err);
+      throw error;
     }
   };
 

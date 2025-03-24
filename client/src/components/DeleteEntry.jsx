@@ -12,7 +12,7 @@ function DeleteEntry({ setDeleteEntry, id, entryTitle, onDeleteSuccess }) {
       setDeleteEntry(false);
       onDeleteSuccess();
     } catch (error) {
-      console.error("Delete failed:", error);
+      throw error;
     }
   };
 

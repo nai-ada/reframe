@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import { Button, Accordion, AccordionItem } from "@heroui/react";
-import Navigation from "../components/Navigation";
 import PageTransition from "../components/PageTransition";
 import MindsetTips from "../components/MindsetTips";
 import EntryComparisons from "../components/EntryComparisons";
@@ -53,8 +52,6 @@ function EntryProcessingPage() {
   const [error, setError] = useState("");
   const [apiCallMade, setApiCallMade] = useState(false);
   const [typewriterComplete, setTypewriterComplete] = useState(false);
-  const [originalScore, setOriginalScore] = useState(0);
-  const [reframedScore, setReframedScore] = useState(0);
   const [mindsetTips, setMindsetTips] = useState("");
   const [savingEntry, setSavingEntry] = useState(false);
 
@@ -106,7 +103,6 @@ function EntryProcessingPage() {
         navigate("/success", { state: { entryData: data[0] } });
       }
     } catch (error) {
-      console.error("Error saving entry:", error);
       setError("Failed to save entry. Please try again.");
       setSavingEntry(false);
     }
@@ -122,7 +118,6 @@ function EntryProcessingPage() {
     const cacheKey = originalText.substring(0, 100);
 
     if (responseCache[cacheKey]) {
-      console.log("Using cached response");
       setReframedText(responseCache[cacheKey]);
       setIsLoading(false);
       setTimeout(() => {
@@ -173,11 +168,6 @@ function EntryProcessingPage() {
         setDisplayReframedText(true);
       }, 300);
     } catch (error) {
-      console.error(
-        "Error calling Gemini API:",
-        error.response ? error.response.data : error.message
-      );
-      setError("Something went wrong. Please try again.");
       setIsLoading(false);
     }
   }, [originalText, geminiApiKey, apiCallMade]);
@@ -197,7 +187,7 @@ function EntryProcessingPage() {
               <h2 className="text-xl mb-4">{error}</h2>
               <Link
                 to="/new-entry"
-                className="bg-[#A7CFB8] text-white px-4 py-2 rounded-full"
+                className="bg-[#bae0b6] text-[#3a3a3a] font-medium shadow-lg rounded-xl mb-10"
               >
                 Try Again
               </Link>

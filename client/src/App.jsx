@@ -1,6 +1,5 @@
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
-import Test from "./components/Test";
 import SignUpPage from "./pages/SignUpPage";
 import Dashboard from "./pages/Dashboard";
 import LoginPage from "./pages/LoginPage";
@@ -17,7 +16,6 @@ function AnimatedRoutes() {
 
   return (
     <AnimatePresence mode="wait">
-      <Navigation />
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<Dashboard />} />
         <Route path="/signup" element={<SignUpPage />} />
@@ -28,8 +26,6 @@ function AnimatedRoutes() {
         <Route path="/success" element={<SuccessAnimation />} />
         <Route path="/submitted-entry" element={<SubmittedEntryPage />} />
         <Route path="/submitted-entry/:id" element={<SubmittedEntryPage />} />
-
-        <Route path="/test" element={<Test />} />
       </Routes>
     </AnimatePresence>
   );
@@ -43,6 +39,7 @@ function App() {
     >
       <BrowserRouter>
         <Layout>
+          <Navigation />
           <AnimatedRoutes />
         </Layout>
       </BrowserRouter>
