@@ -41,7 +41,6 @@ function EntryComparisons({ originalText, reframedText }) {
     const cacheKey = originalText.substring(0, 100);
 
     if (responseCache[cacheKey]) {
-      console.log("Using cached response");
       setScores(responseCache[cacheKey]);
       setIsLoading(false);
       return;
@@ -95,10 +94,6 @@ function EntryComparisons({ originalText, reframedText }) {
       setScores(generatedText);
       setIsLoading(false);
     } catch (error) {
-      console.error(
-        "Error calling Gemini API:",
-        error.response ? error.response.data : error.message
-      );
       setError("Something went wrong. Please try again.");
       setIsLoading(false);
     }
@@ -159,7 +154,6 @@ function EntryComparisons({ originalText, reframedText }) {
         </div>
         {!isLoading ? (
           <div className="p-4 flex flex-row flex-wrap justify-between gap-4 w-[80%] max-w-[800px] mx-auto">
-            {/* User's Entry Score */}
             <div className="flex-1 min-w-[200px] flex flex-row gap-2 items-center border-2 border-[#bae0b6] rounded-lg p-4 transition-colors duration-500 ease-in">
               <span className="font-medium text-lg font-figtree whitespace-nowrap">
                 Your Entry
@@ -175,7 +169,6 @@ function EntryComparisons({ originalText, reframedText }) {
               </div>
             </div>
 
-            {/* Reframed Entry Score */}
             <div className="flex-1 min-w-[200px] flex flex-row gap-2 items-center border-2 border-[#bae0b6] rounded-lg p-4 transition-colors duration-500 ease-in">
               <span className="font-medium text-lg font-figtree whitespace-nowrap">
                 Refra<span className="font-thin">:me</span>

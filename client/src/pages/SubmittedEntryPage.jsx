@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate, Link, useParams } from "react-router-dom";
 import { Button } from "@heroui/react";
 import ReactCardFlip from "react-card-flip";
-import Navigation from "../components/Navigation";
 import BackArrow from "../assets/images/back-arrow.svg";
 import DeleteEntry from "../components/DeleteEntry";
 import Tap from "../assets/images/tap.svg";
@@ -43,7 +42,6 @@ function SubmittedEntryPage() {
       if (data) setEntries(data);
     } catch (err) {
       setError(err.message);
-      console.error("Error fetching entries:", err);
     } finally {
       setLoading(false);
     }
@@ -54,10 +52,9 @@ function SubmittedEntryPage() {
       const { error } = await supabase.from("entries").delete().eq("id", id);
 
       if (error) throw error;
-      console.log("Entry deleted successfully");
       navigate("/all-entries", { replace: true });
     } catch (err) {
-      console.error("Error deleting entry:", err);
+      throw error;
     }
   };
 
@@ -88,7 +85,6 @@ function SubmittedEntryPage() {
           if (data) setEntryData(data);
         } catch (err) {
           setError(err.message);
-          console.error("Error fetching entry:", err);
         } finally {
           setLoading(false);
         }
@@ -138,9 +134,7 @@ function SubmittedEntryPage() {
           </Link>
         </div>
         <div className="flex items-center justify-left m-4 mb-0">
-          <h1 className="text-[30px] pr-4">
-            {entryData.entry_title || "Untitled Entry"}
-          </h1>
+          <h1 className="text-[30px] pr-4">{entryData.entry_title}</h1>
         </div>
         <div className="flex items-center justify-between m-4 mt-0">
           <h2 className="text-[12px] mr-2">{formattedDate}</h2>
@@ -160,7 +154,7 @@ function SubmittedEntryPage() {
           </div>
         </div>
         <div className="m-4">
-          <div className="mb-6 mt-10 relative ">
+          <div className="mb-6 mt-10 relative">
             <ReactCardFlip isFlipped={isFlipped} flipDirection="horizontal">
               <div
                 className="p-4 border-2 shadow-lg border-[#A7CFB8] rounded-lg mx-4 min-h-[200px] cursor-pointer bg-gradient-to-b from-[#e8f8ff] to-[#e2ffdd]"
@@ -245,7 +239,7 @@ function SubmittedEntryPage() {
             />
           )}
 
-          <div className=" flex justify-center mr-4 ">
+          <div className="flex justify-center mr-4">
             <Link to="/all-entries">
               <Button
                 className="bg-[#bae0b6] text-[#3a3a3a] font-medium shadow-lg mb-10"

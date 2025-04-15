@@ -12,7 +12,7 @@ function DeleteAllEntries({ setDeleteAllEntries, onDeleteSuccess }) {
       setDeleteAllEntries(false);
       onDeleteSuccess();
     } catch (error) {
-      console.error("Delete all entries failed:", error);
+      throw error;
     }
   };
 

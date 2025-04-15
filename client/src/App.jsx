@@ -6,7 +6,6 @@ import {
   Navigate,
 } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
-
 import SignUpPage from "./pages/SignUpPage";
 import Dashboard from "./pages/Dashboard";
 import LoginPage from "./pages/LoginPage";
@@ -24,7 +23,6 @@ function AnimatedRoutes() {
 
   return (
     <AnimatePresence mode="wait">
-      <Navigation />
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<Navigate to="/login" replace />} />
 
@@ -51,6 +49,7 @@ function App() {
     >
       <BrowserRouter>
         <Layout>
+          <Navigation />
           <AnimatedRoutes />
         </Layout>
       </BrowserRouter>

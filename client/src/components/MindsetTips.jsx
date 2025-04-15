@@ -42,7 +42,6 @@ function MindsetTips({ originalText, updateTipsText }) {
     const cacheKey = originalText.substring(0, 100);
 
     if (responseCache[cacheKey]) {
-      console.log("Using cached response");
       setTipsText(responseCache[cacheKey]);
       setIsLoading(false);
       setTimeout(() => {
@@ -101,10 +100,6 @@ function MindsetTips({ originalText, updateTipsText }) {
         setDisplayTipsText(true);
       }, 300);
     } catch (error) {
-      console.error(
-        "Error calling Gemini API:",
-        error.response ? error.response.data : error.message
-      );
       setError("Something went wrong. Please try again.");
       setIsLoading(false);
     }
