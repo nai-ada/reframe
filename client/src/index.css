@@ -109,3 +109,11 @@ p {
 .green-circle {
   border-color: #4d8b67;
 }
+
+.gradient-text-dashboard {
+  background: linear-gradient(90deg, #5fb474c9, #7fd9e9b0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}

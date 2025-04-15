@@ -53,8 +53,6 @@ function EntryProcessingPage() {
   const [error, setError] = useState("");
   const [apiCallMade, setApiCallMade] = useState(false);
   const [typewriterComplete, setTypewriterComplete] = useState(false);
-  const [originalScore, setOriginalScore] = useState(0);
-  const [reframedScore, setReframedScore] = useState(0);
   const [mindsetTips, setMindsetTips] = useState("");
   const [savingEntry, setSavingEntry] = useState(false);
 

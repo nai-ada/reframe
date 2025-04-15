@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import QuoteRandomizer from "../components/QuoteRandomizer";
 import LeafIcon from "../assets/images/leaf.svg";
@@ -6,8 +6,23 @@ import NewEntryIcon from "../assets/images/new-entry-dash.svg";
 import AllEntriesIcon from "../assets/images/all-entries-dash.svg";
 import PageTransition from "../components/PageTransition";
 import { Divider } from "@heroui/divider";
+import { supabase } from "../supabaseClient";
 
 function Dashboard() {
+  const [nameofUser, setNameofUser] = useState("");
+
+  useEffect(() => {
+    const getUser = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (user) {
+        setNameofUser(user.user_metadata.display_name);
+      }
+    };
+    getUser();
+  }, []);
+
   return (
     <PageTransition>
       <div>
@@ -21,12 +36,16 @@ function Dashboard() {
             className="w-[26px] max-w-full self-center -mt-1"
           />
         </div>
-        <div className="flex justify-left m-4 mt-10">
+        <div className="flex justify-left m-4 mb-0 mt-10">
           <h2 className="text-[32px] font-semibold text-[#2e4b3b] text-left w-80">
-            Ready for a new perspective?
+            Ready for a new perspective,{" "}
+            <span className="bold text-[36px] gradient-text-dashboard ">
+              {nameofUser}
+            </span>
+            ?
           </h2>
         </div>
-        <div className="justify-center mt-4 ont-figtree  p-4 pb-10 pt-10">
+        <div className="justify-center  p-4 pb-10 pt-10">
           <div className="grid grid-cols-2 gap-4 max-w-md mx-auto">
             <Link
               to="/new-entry"

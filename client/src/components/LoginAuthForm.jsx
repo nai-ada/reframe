@@ -1,36 +1,54 @@
 import React from "react";
 import { Form, Input, Button } from "@heroui/react";
+import { supabase } from "../supabaseClient";
+import { useNavigate } from "react-router-dom";
 
-export default function LoginAuthForm() {
-  const [action, setAction] = React.useState(null);
+export default function SignUpAuthForm() {
+  const [loading, setIsLoading] = React.useState(false);
+  const [error, setError] = React.useState(null);
+  const [success, setSuccess] = React.useState(null);
+  const navigate = useNavigate();
 
   return (
     <>
       <Form
         className="w-full max-w-xs flex flex-col gap-5 px-7 mt-4 justify-center"
-        onSubmit={(e) => {
+        onSubmit={async (e) => {
           e.preventDefault();
-          let data = Object.fromEntries(new FormData(e.currentTarget));
+          setIsLoading(true);
+          setError(null);
+          setSuccess(null);
 
-          setAction(`submit ${JSON.stringify(data)}`);
+          let data = Object.fromEntries(new FormData(e.currentTarget));
+          const { email, password } = data;
+
+          const { error } = await supabase.auth.signInWithPassword({
+            email,
+            password,
+          });
+
+          if (error) {
+            setError(error.message);
+          } else {
+            navigate("/dashboard");
+          }
+          setIsLoading(false);
         }}
       >
         <Input
           required
-          errorMessage="Please enter a valid username"
-          label={
-            <div className="font-figtree text-[14px] mb-1">Enter Username</div>
-          }
+          errorMessage="Please enter a valid email"
+          label={<div className="font-figtree text-[14px] mb-1">Email</div>}
           labelPlacement="outside"
-          name="username"
-          placeholder="Username"
-          type="text"
+          name="email"
+          placeholder="Email"
+          type="email"
         />
 
         <Input
           required
           errorMessage="Please enter a valid password"
-          label={<div className="font-figtree text-[14px]">Enter Password</div>}
+          label={<div className="font-figtree text-[14px]">Password</div>}
           labelPlacement="outside"
           name="password"
           placeholder="Password"
@@ -43,11 +61,16 @@ export default function LoginAuthForm() {
             radius="xl"
             variant="solid"
             type="submit"
+            disabled={loading}
           >
-            Login
+            {loading ? "Logging In..." : "Log In"}
           </Button>
         </div>
       </Form>
+      {error && (
+        <div className="text-red-500 justify-center text-center">{error}</div>
+      )}
+      {success && { success }}
     </>
   );
 }
