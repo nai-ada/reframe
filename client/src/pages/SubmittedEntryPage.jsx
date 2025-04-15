@@ -129,8 +129,8 @@ function SubmittedEntryPage() {
     <PageTransition>
       <div>
         <div className="flex justify-left m-2 mt-10">
-          <Link to="/">
-            <img src={BackArrow} alt="back arrow"></img>
+          <Link to="/dashboard">
+            <img src={BackArrow} alt="back arrow" className=""></img>
           </Link>
         </div>
         <div className="flex items-center justify-left m-4 mb-0">

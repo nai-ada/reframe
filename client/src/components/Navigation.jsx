@@ -14,7 +14,7 @@ export default function Navigation() {
   }
 
   const menuItems = [
-    { label: "Dashboard", href: "/", icon: HomeIcon },
+    { label: "Dashboard", href: "/dashboard", icon: HomeIcon },
     { label: "New Entry", href: "/new-entry", icon: NewEntryIcon },
     { label: "All Entries", href: "/all-entries", icon: AllEntriesIcon },
     { label: "Log Out", href: "/login", icon: LogoutIcon },

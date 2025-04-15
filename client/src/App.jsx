@@ -1,4 +1,10 @@
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  useLocation,
+  Navigate,
+} from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import SignUpPage from "./pages/SignUpPage";
 import Dashboard from "./pages/Dashboard";
@@ -10,6 +16,7 @@ import Layout from "./components/Layout";
 import EntryProcessingPage from "./pages/EntryProcessingPage";
 import SubmittedEntryPage from "./pages/SubmittedEntryPage";
 import SuccessAnimation from "./pages/SuccessAnimation";
+import AccountSuccessAnimation from "./pages/AccountSuccessAnimation";
 
 function AnimatedRoutes() {
   const location = useLocation();
@@ -17,8 +24,11 @@ function AnimatedRoutes() {
   return (
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
-        <Route path="/" element={<Dashboard />} />
+        <Route path="/" element={<Navigate to="/login" replace />} />
+
+        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/signup" element={<SignUpPage />} />
+        <Route path="/accountsuccess" element={<AccountSuccessAnimation />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/new-entry" element={<NewEntryPage />} />
         <Route path="/all-entries" element={<AllEntriesPage />} />
