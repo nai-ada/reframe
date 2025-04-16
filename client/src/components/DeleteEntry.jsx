@@ -5,7 +5,19 @@ import { supabase } from "../supabaseClient";
 function DeleteEntry({ setDeleteEntry, id, entryTitle, onDeleteSuccess }) {
   const handleDelete = async () => {
     try {
-      const { error } = await supabase.from("entries").delete().eq("id", id);
+      const {
+        data: { user },
+        error: userError,
+      } = await supabase.auth.getUser();
+      if (userError || !user) {
+        throw new Error("You must be logged in to delete an entry.");
+      }
+
+      const { error } = await supabase
+        .from("entries")
+        .delete()
+        .eq("id", id)
+        .eq("user_id", user.id);
 
       if (error) throw error;
 

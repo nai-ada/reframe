@@ -49,12 +49,24 @@ function SubmittedEntryPage() {
 
   const deleteEntryById = async (id) => {
     try {
-      const { error } = await supabase.from("entries").delete().eq("id", id);
+      const {
+        data: { user },
+        error: userError,
+      } = await supabase.auth.getUser();
+      if (userError || !user) {
+        setError("You must be logged in to delete an entry.");
+        return;
+      }
+      const { error } = await supabase
+        .from("entries")
+        .delete()
+        .eq("id", id)
+        .eq("user_id", user.id);
 
       if (error) throw error;
       navigate("/all-entries", { replace: true });
     } catch (err) {
-      throw error;
+      setError(err.message);
     }
   };
 

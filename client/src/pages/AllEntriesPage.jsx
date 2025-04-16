@@ -22,9 +22,19 @@ function AllEntriesPage() {
   const fetchAllEntries = async () => {
     try {
       setLoading(true);
+      const {
+        data: { user },
+        error: userError,
+      } = await supabase.auth.getUser();
+      if (userError || !user) {
+        setError("You must be logged in to view entries.");
+        return;
+      }
+
       const { data, error } = await supabase
         .from("entries")
         .select("*")
+        .eq("user_id", user.id)
         .order("date", { ascending: false });
 
       if (error) throw error;
@@ -56,16 +66,22 @@ function AllEntriesPage() {
   const deleteEntries = async (ids = null) => {
     try {
       setLoading(true);
-      let query = supabase.from("entries").delete();
+      const {
+        data: { user },
+        error: userError,
+      } = await supabase.auth.getUser();
+      if (userError || !user) {
+        setError("You must be logged in to delete entries.");
+        return;
+      }
+
+      let query = supabase.from("entries").delete().eq("user_id", user.id);
 
       if (ids) {
         query = query.in("id", ids);
-      } else {
-        query = query.neq("id", 0);
       }
 
       const { error } = await query;
-
       if (error) throw error;
 
       await fetchAllEntries();

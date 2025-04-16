@@ -4,6 +4,7 @@ import BackArrow from "../assets/images/back-arrow.svg";
 import Important from "../assets/images/important.svg";
 import { Textarea, Button } from "@heroui/react";
 import PageTransition from "../components/PageTransition";
+import { supabase } from "../supabaseClient";
 
 function NewEntryPage() {
   const navigate = useNavigate();
@@ -50,6 +51,31 @@ function NewEntryPage() {
       return;
     }
 
+    const {
+      data: { user },
+      error: userError,
+    } = await supabase.auth.getUser();
+    if (userError || !user) {
+      setErrorMessage("You must be logged in to submit an entry.");
+      return;
+    }
+
+    if (isEditing && entryId) {
+      const { error } = await supabase
+        .from("entries")
+        .update({
+          original_text: entryText.trim(),
+          entry_title: entryTitle.trim(),
+        })
+        .eq("id", entryId)
+        .eq("user_id", user.id);
+
+      if (error) {
+        setErrorMessage("Failed to save entry: " + error.message);
+        return;
+      }
+    }
+
     navigate("/entry-processing", {
       state: {
         originalText: entryText,
@@ -69,7 +95,7 @@ function NewEntryPage() {
             <img src={BackArrow} alt="back arrow" className=""></img>
           </Link>
         </div>
-        <div className="flex justify-center items-center mx-4 max-w-4xl px-4 py-2 mt-4 rounded-xl border-[#ffdf4e] border-2">
+        {/* <div className="flex justify-center items-center mx-4 max-w-4xl px-4 py-2 mt-4 rounded-xl border-[#ffdf4e] border-2">
           <img src={Important} alt="Important" className="mr-2 flex-shrink-0" />
           <p className="text-[#EA3323] font-semibold text-[12px] ml-1 inline-flex items-center flex-wrap">
             Please note that this application is currently in Beta. All entries
@@ -77,7 +103,7 @@ function NewEntryPage() {
             Please avoid writing down personal information when submitting an
             entry.
           </p>
-        </div>
+        </div> */}
 
         <div className="flex items-center justify-between m-4">
           <h1 className="text-[22px] pr-4">

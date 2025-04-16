@@ -59,10 +59,25 @@ function EntryProcessingPage() {
 
   const saveEntryToSupabase = async () => {
     if (savingEntry) return;
+    setSavingEntry(true);
+
+    if (!originalText || !reframedText || !entryTitle) {
+      setError("Please complete all required fields before saving.");
+      setSavingEntry(false);
+      return;
+    }
+
+    const {
+      data: { user },
+      error: userError,
+    } = await supabase.auth.getUser();
+    if (userError || !user) {
+      setError("You must be logged in to save an entry.");
+      setSavingEntry(false);
+      return;
+    }
 
     try {
-      setSavingEntry(true);
-
       if (isEditing) {
         const { data, error } = await supabase
           .from("entries")
@@ -73,6 +88,7 @@ function EntryProcessingPage() {
             mindset_tips: mindsetTips,
           })
           .eq("id", entryId)
+          .eq("user_id", user.id)
           .select();
 
         if (error) throw error;
@@ -94,6 +110,7 @@ function EntryProcessingPage() {
               entry_title: entryTitle,
               mindset_tips: mindsetTips,
               is_new: true,
+              user_id: user.id,
             },
           ])
           .select();
@@ -335,7 +352,12 @@ function EntryProcessingPage() {
               className="bg-[#bae0b6] text-[#3a3a3a] font-medium shadow-lg mb-10"
               radius="xl"
               variant="solid"
-              disabled={!typewriterComplete || savingEntry}
+              disabled={
+                !typewriterComplete ||
+                savingEntry ||
+                !reframedText ||
+                !mindsetTips
+              }
               onPress={handleSubmitEntry}
             >
               {savingEntry
