@@ -55,8 +55,6 @@ function EntryProcessingPage() {
   const [mindsetTips, setMindsetTips] = useState("");
   const [savingEntry, setSavingEntry] = useState(false);
 
-  const geminiApiKey = import.meta.env.VITE_GEMINI_API_KEY;
-
   const saveEntryToSupabase = async () => {
     if (savingEntry) return;
     setSavingEntry(true);
@@ -154,27 +152,14 @@ function EntryProcessingPage() {
     try {
       setApiCallMade(true);
 
-      const response = await apiClient.post(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${geminiApiKey}`,
-        {
-          contents: [
-            {
-              parts: [
-                {
-                  text: prompt,
-                },
-              ],
-            },
-          ],
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await fetch("/.netlify/functions/processEntry", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt }),
+      });
 
-      const generatedText = response.data.candidates[0].content.parts[0].text;
+      const data = await response.json();
+      const generatedText = data.candidates[0].content.parts[0].text;
 
       responseCache[cacheKey] = generatedText;
 
@@ -187,7 +172,7 @@ function EntryProcessingPage() {
     } catch (error) {
       setIsLoading(false);
     }
-  }, [originalText, geminiApiKey, apiCallMade]);
+  }, [originalText, apiCallMade]);
 
   useEffect(() => {
     if (originalText && !apiCallMade) {

@@ -33,8 +33,6 @@ function EntryComparisons({ originalText, reframedText }) {
   const [error, setError] = useState("");
   const [apiCallMade, setApiCallMade] = useState(false);
 
-  const geminiApiKey = import.meta.env.VITE_GEMINI_API_KEY;
-
   const processText = useCallback(async () => {
     if (!originalText || apiCallMade) return;
 
@@ -69,27 +67,15 @@ function EntryComparisons({ originalText, reframedText }) {
     try {
       setApiCallMade(true);
 
-      const response = await apiClient.post(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${geminiApiKey}`,
-        {
-          contents: [
-            {
-              parts: [
-                {
-                  text: scoresPrompt,
-                },
-              ],
-            },
-          ],
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await fetch("/.netlify/functions/compareEntries", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt: scoresPrompt }),
+      });
 
-      const generatedText = response.data.candidates[0].content.parts[0].text;
+      const data = await response.json();
+      const generatedText = data.candidates[0].content.parts[0].text;
+
       responseCache[cacheKey] = generatedText;
       setScores(generatedText);
       setIsLoading(false);
@@ -97,7 +83,7 @@ function EntryComparisons({ originalText, reframedText }) {
       setError("Something went wrong. Please try again.");
       setIsLoading(false);
     }
-  }, [originalText, reframedText, geminiApiKey, apiCallMade]);
+  }, [originalText, reframedText, apiCallMade]);
 
   useEffect(() => {
     if (originalText && !apiCallMade) {
