@@ -5,7 +5,7 @@ import {
   useLocation,
   Navigate,
 } from "react-router-dom";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { AnimatePresence } from "framer-motion";
 import SignUpPage from "./pages/SignUpPage";
 import Dashboard from "./pages/Dashboard";

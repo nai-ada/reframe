@@ -1,31 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
-import axios from "axios";
 
 function EntryComparisons({ originalText, reframedText }) {
-  const responseCache = {};
-  const apiClient = axios.create();
-  const RATE_LIMIT_WINDOW = 60000;
-  const MAX_REQUESTS_PER_WINDOW = 5;
-  const requestTimestamps = [];
-
-  apiClient.interceptors.request.use(async (config) => {
-    const now = Date.now();
-    while (
-      requestTimestamps.length > 0 &&
-      requestTimestamps[0] < now - RATE_LIMIT_WINDOW
-    ) {
-      requestTimestamps.shift();
-    }
-    if (requestTimestamps.length >= MAX_REQUESTS_PER_WINDOW) {
-      const oldestTimestamp = requestTimestamps[0];
-      const timeToWait = RATE_LIMIT_WINDOW - (now - oldestTimestamp);
-      await new Promise((resolve) => setTimeout(resolve, timeToWait));
-      return apiClient.interceptors.request.handlers[0].fulfilled(config);
-    }
-    requestTimestamps.push(now);
-    return config;
-  });
-
   const [isLoading, setIsLoading] = useState(true);
   const [scores, setScores] = useState("");
   const [originalScore, setOriginalScore] = useState(0);
@@ -35,14 +10,6 @@ function EntryComparisons({ originalText, reframedText }) {
 
   const processText = useCallback(async () => {
     if (!originalText || apiCallMade) return;
-
-    const cacheKey = originalText.substring(0, 100);
-
-    if (responseCache[cacheKey]) {
-      setScores(responseCache[cacheKey]);
-      setIsLoading(false);
-      return;
-    }
 
     const scoresPrompt = `
     You are an AI mindset coach evaluating two entries.
@@ -76,11 +43,9 @@ function EntryComparisons({ originalText, reframedText }) {
       const data = await response.json();
       const generatedText = data.candidates[0].content.parts[0].text;
 
-      responseCache[cacheKey] = generatedText;
       setScores(generatedText);
       setIsLoading(false);
     } catch (error) {
-      setError("Something went wrong. Please try again.");
       setIsLoading(false);
     }
   }, [originalText, reframedText, apiCallMade]);

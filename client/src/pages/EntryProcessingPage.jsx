@@ -4,41 +4,10 @@ import { Button, Accordion, AccordionItem } from "@heroui/react";
 import PageTransition from "../components/PageTransition";
 import MindsetTips from "../components/MindsetTips";
 import EntryComparisons from "../components/EntryComparisons";
-import axios from "axios";
 import TypewriterEffect from "../components/TypewriterEffect";
 import LeafIcon from "../assets/images/leaf.svg";
 import { Spinner } from "@heroui/spinner";
 import { supabase } from "../supabaseClient";
-
-const responseCache = {};
-
-const apiClient = axios.create();
-const RATE_LIMIT_WINDOW = 60000;
-const MAX_REQUESTS_PER_WINDOW = 5;
-const requestTimestamps = [];
-
-apiClient.interceptors.request.use(async (config) => {
-  const now = Date.now();
-
-  while (
-    requestTimestamps.length > 0 &&
-    requestTimestamps[0] < now - RATE_LIMIT_WINDOW
-  ) {
-    requestTimestamps.shift();
-  }
-
-  if (requestTimestamps.length >= MAX_REQUESTS_PER_WINDOW) {
-    const oldestTimestamp = requestTimestamps[0];
-    const timeToWait = RATE_LIMIT_WINDOW - (now - oldestTimestamp);
-
-    await new Promise((resolve) => setTimeout(resolve, timeToWait));
-
-    return apiClient.interceptors.request.handlers[0].fulfilled(config);
-  }
-
-  requestTimestamps.push(now);
-  return config;
-});
 
 function EntryProcessingPage() {
   const location = useLocation();
@@ -130,17 +99,6 @@ function EntryProcessingPage() {
   const processText = useCallback(async () => {
     if (!originalText || apiCallMade) return;
 
-    const cacheKey = originalText.substring(0, 100);
-
-    if (responseCache[cacheKey]) {
-      setReframedText(responseCache[cacheKey]);
-      setIsLoading(false);
-      setTimeout(() => {
-        setDisplayReframedText(true);
-      }, 300);
-      return;
-    }
-
     const prompt = `
       You are an AI trained to help reframe text into a positive perspective. Your task is to analyze the following user entry and identify any negative statements. Then, rework the text to reframe those statements into a positive perspective while keeping the original content as close as possible. Maintain the tone and style of the original text, but ensure the overall message is uplifting and optimistic. Keep this reframed entry as concise as possible, avoiding extra sentences.
 
@@ -151,17 +109,21 @@ function EntryProcessingPage() {
 
     try {
       setApiCallMade(true);
-
       const response = await fetch("/.netlify/functions/processEntry", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt }),
+        body: JSON.stringify({
+          prompt: prompt,
+        }),
       });
 
-      const data = await response.json();
-      const generatedText = data.candidates[0].content.parts[0].text;
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "API request failed");
+      }
 
-      responseCache[cacheKey] = generatedText;
+      const data = await response.json();
+      const generatedText = data.text;
 
       setReframedText(generatedText);
       setIsLoading(false);
@@ -171,6 +133,7 @@ function EntryProcessingPage() {
       }, 300);
     } catch (error) {
       setIsLoading(false);
+      setError(error.message || "Failed to process entry");
     }
   }, [originalText, apiCallMade]);
 
