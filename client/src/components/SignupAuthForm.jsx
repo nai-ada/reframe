@@ -1,7 +1,7 @@
 import React from "react";
 import { Form, Input, Button } from "@heroui/react";
 import { supabase } from "../supabaseClient";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 export default function SignUpAuthForm() {
   const [loading, setIsLoading] = React.useState(false);
@@ -90,6 +90,19 @@ export default function SignUpAuthForm() {
           placeholder="Password"
           type="password"
         />
+        <label className="flex">
+          <input type="checkbox" required className="mr-2" />
+          <span className="text-[12px]">
+            I have read and agree to the{" "}
+            <Link
+              to="/privacy-notice"
+              className="text-[#83af7d]  underline bold"
+            >
+              Privacy Notice
+            </Link>
+            .
+          </span>
+        </label>
 
         <div className="flex gap-2">
           <Button

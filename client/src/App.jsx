@@ -18,6 +18,7 @@ import EntryProcessingPage from "./pages/EntryProcessingPage";
 import SubmittedEntryPage from "./pages/SubmittedEntryPage";
 import SuccessAnimation from "./pages/SuccessAnimation";
 import AccountSuccessAnimation from "./pages/AccountSuccessAnimation";
+import PrivacyNotice from "./pages/PrivacyNotice";
 import { supabase } from "./supabaseClient";
 
 function AnimatedRoutes() {
@@ -38,6 +39,7 @@ function AnimatedRoutes() {
         <Route path="/success" element={<SuccessAnimation />} />
         <Route path="/submitted-entry" element={<SubmittedEntryPage />} />
         <Route path="/submitted-entry/:id" element={<SubmittedEntryPage />} />
+        <Route path="/privacy-notice" element={<PrivacyNotice />} />
       </Routes>
     </AnimatePresence>
   );

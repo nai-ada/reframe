@@ -95,15 +95,21 @@ function NewEntryPage() {
             <img src={BackArrow} alt="back arrow" className=""></img>
           </Link>
         </div>
-        {/* <div className="flex justify-center items-center mx-4 max-w-4xl px-4 py-2 mt-4 rounded-xl border-[#ffdf4e] border-2">
+        <div className="flex justify-center items-center mx-4 max-w-4xl px-4 py-2 mt-4 rounded-xl border-black border-2">
           <img src={Important} alt="Important" className="mr-2 flex-shrink-0" />
-          <p className="text-[#EA3323] font-semibold text-[12px] ml-1 inline-flex items-center flex-wrap">
+          <p className="text-[#EA3323] font-semibold text-[12px] ml-1 items-center">
             Please note that this application is currently in Beta. All entries
-            are publicly available and can be viewed by anyone using Refra:me.
-            Please avoid writing down personal information when submitting an
-            entry.
+            are stored without encryption and may be accessed by the application
+            owner. For more information, please visit our{" "}
+            <Link
+              to="/privacy-notice"
+              className="bold underline text-[#83af7d]"
+            >
+              Privacy Notice
+            </Link>
+            .
           </p>
-        </div> */}
+        </div>
 
         <div className="flex items-center justify-between m-4">
           <h1 className="text-[22px] pr-4">
