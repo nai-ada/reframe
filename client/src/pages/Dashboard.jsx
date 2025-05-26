@@ -39,7 +39,7 @@ function Dashboard() {
         <div className="flex justify-left m-4 mb-0 mt-10">
           <h2 className="text-[32px] font-semibold text-[#2e4b3b] text-left w-80">
             Ready for a new perspective,{" "}
-            <span className="bold text-[36px] gradient-text-dashboard ">
+            <span className="bold text-[36px] text-[#519144] ">
               {nameofUser}
             </span>
             ?
