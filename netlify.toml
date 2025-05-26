@@ -11,3 +11,9 @@
   targetPort = 5173
   publish = "dist"
   framework = "#custom"
+
+  [[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
