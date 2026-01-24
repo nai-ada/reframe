@@ -18,7 +18,7 @@ function PrivacyNotice() {
         Privacy Notice explains how your information is handled when you use
         Refra:me, especially while the App is in Beta.
       </p>
-      <h2 className="mb-2">1. What Information We Collect</h2>
+      <h2 className="mb-2">1. Information We Collect</h2>
       <p className="mb-4">
         When you use Refra:me, you may enter journal entries that could include
         sensitive or personal information. These entries are processed by the
