@@ -100,7 +100,7 @@ function EntryProcessingPage() {
     if (!originalText || apiCallMade) return;
 
     const prompt = `
-      You are an AI trained to help reframe text into a positive perspective. Your task is to analyze the following user entry and identify any negative statements. Then, rework the text to reframe those statements into a positive perspective while keeping the original content as close as possible. Maintain the tone and style of the original text, but ensure the overall message is uplifting and optimistic. Keep this reframed entry as concise as possible, avoiding extra sentences.
+      You are an AI trained to help reframe text into a positive perspective. Your task is to analyze the following user entry and identify any negative statements. Then, rework the text to reframe those statements into a positive perspective while keeping the original content as close as possible and keeping similar language to the user. Maintain the tone and style of the original text, but ensure the overall message has an uplifting and optimistic perspective instead. Keep this reframed entry as concise as possible, avoiding extra sentences. Do not give the user advice, this is not your task. Make sure to only reframe the user's text from negative to positive if the user is speaking negatively in their text.
 
       **User Entry:**
       ${originalText}
